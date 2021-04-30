@@ -1,0 +1,9 @@
+.currentConditionsTab {
+  text-align: center;
+}
+
+.currentConditionsTab td,
+th {
+  padding: 5px;
+  border: solid 1px black;
+}

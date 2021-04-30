@@ -1,0 +1,26 @@
+<div class="loginDiv">
+    <form [formGroup]="formGroup" (ngSubmit)="loginProces()">
+        <table>
+            <tr>
+                <td>
+                    <label>Login lub adres email:</label>
+                </td>
+                <td>
+                    <input type="text" name="login" id="login" placeholder="Login" formControlName="login">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Hasło:</label>
+                </td>
+                <td><input type="password" name="password" id="password" placeholder="Hasło" formControlName="password">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center">
+                    <input type="submit" value="Zaloguj">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

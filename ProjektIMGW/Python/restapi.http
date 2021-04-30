@@ -1,0 +1,72 @@
+POST http://localhost:3000/CheckLogIn
+Content-Type: application/json
+
+{
+    "login": "admin",
+    "password": "admin"
+}
+
+###
+
+POST http://localhost:3000/AgriculturalTechniquesGet
+Content-Type: application/json
+
+{
+    "login": "admin"
+}
+
+###
+
+POST http://localhost:3000/AgriculturalTechniquesAdd
+Content-Type: application/json
+
+{
+    "login": "admin",
+    "agriculturalDate": "06-20-21",
+    "actionId": 1,
+    "data1": "Na",
+    "data2": "12"
+}
+
+###
+
+POST http://localhost:3000/CurrentConditionsGet
+Content-Type: application/json
+
+{
+    "login": "admin"
+}
+
+###
+
+POST http://localhost:3000/CurrentConditionsAdd
+Content-Type: application/json
+
+{
+    "login": "admin",
+    "plantTypeId": 3,
+    "sowingDate": "08-20-21",
+    "cultivationStateId": 2
+}
+
+###
+
+POST http://localhost:3000/EventsGet
+Content-Type: application/json
+
+{
+    "login": "admin"
+}
+
+###
+
+POST http://localhost:3000/EventsAdd
+Content-Type: application/json
+
+{
+    "login": "admin",
+    "eventDate": "04-20-21",
+    "eventTypeId": "2",
+    "lossesPercentage": 15,
+    "photoPath": "C:/zdj/zdj3.jpg"
+}

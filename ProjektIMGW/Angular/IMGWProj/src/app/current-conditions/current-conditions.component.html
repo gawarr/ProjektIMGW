@@ -1,0 +1,20 @@
+<div class="container">
+    <h2>Zabiegi Agroturystyczne</h2>
+    <table class="currentConditionsTab">
+        <tr>
+            <th>Data</th>
+            <th>Czynnosć</th>
+            <th colspan="2">Dane</th>
+        </tr>
+        <tr *ngFor="let value of conditionsTable">
+            <td>{{ value.AgriculturalDate }}</td>
+            <td>{{ value.Name }}</td>
+            <td>{{ value.Data1 }}</td>
+            <td>{{ value.Data2 }}</td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <input type="button" value="wyloguj" (click)="this._authService.LogOut()">
+</div>
