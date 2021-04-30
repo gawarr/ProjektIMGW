@@ -41,9 +41,8 @@ export class LoginComponent implements OnInit {
             this._authService.IsLoggedIn();
             this._router.navigateByUrl(`/currentconditions`);
           }
-          else {
+          else
             alert("Błędne dane logowania.")
-          }
         }
       );
     }
