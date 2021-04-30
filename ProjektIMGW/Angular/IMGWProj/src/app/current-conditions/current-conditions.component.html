@@ -1,18 +1,52 @@
 <div class="container">
-    <h2>Zabiegi Agroturystyczne</h2>
-    <table class="currentConditionsTab">
-        <tr>
-            <th>Data</th>
-            <th>Czynnosć</th>
-            <th colspan="2">Dane</th>
-        </tr>
-        <tr *ngFor="let value of conditionsTable">
-            <td>{{ value.AgriculturalDate }}</td>
-            <td>{{ value.Name }}</td>
-            <td>{{ value.Data1 }}</td>
-            <td>{{ value.Data2 }}</td>
-        </tr>
-    </table>
+    <div class="tableSpace">
+        <h2>Zabiegi Agroturystyczne</h2>
+        <table class="currentConditionsTabs">
+            <tr>
+                <th>Data</th>
+                <th>Czynnosć</th>
+                <th colspan="2">Dane</th>
+            </tr>
+            <tr *ngFor="let value of conditionsTable">
+                <td>{{ value.AgriculturalDate }}</td>
+                <td>{{ value.Name }}</td>
+                <td>{{ value.Data1 }}</td>
+                <td>{{ value.Data2 }}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="tableSpace">
+        <h2>Warunki bierzące</h2>
+        <table class="currentConditionsTabs">
+            <tr>
+                <th>Roślina</th>
+                <th>Termin siewu</th>
+                <th>Kondycja uprawy</th>
+            </tr>
+            <tr *ngFor="let value of currentConditionsTable">
+                <td>{{ value.PlantName }}</td>
+                <td>{{ value.SowingDate }}</td>
+                <td>{{ value.State }}</td>
+            </tr>
+        </table>
+    </div>
+    <div class="tableSpace">
+        <h2>Dziennik zdarzeń</h2>
+        <table class="currentConditionsTabs">
+            <tr>
+                <th>Data</th>
+                <th>Zdarzenie</th>
+                <th>Strata</th>
+                <th></th>
+            </tr>
+            <tr *ngFor="let value of eventsTable">
+                <td>{{ value.EventDate }}</td>
+                <td>{{ value.EventName }}</td>
+                <td>{{ value.LossesPercentage }}</td>
+                <td>{{ value.PhotoPath }}</td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 <div>

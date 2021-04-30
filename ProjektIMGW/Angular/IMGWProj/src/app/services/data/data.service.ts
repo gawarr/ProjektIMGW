@@ -10,7 +10,15 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
-  //AgriculturalTechniquesGet(data): Observable<any> {
-  //  return this.http.post(`${baseUrl}CheckLogIn`, data)
-  //}
+  AgriculturalTechniquesGet(data): Observable<any> {
+    return this.http.post(`${baseUrl}AgriculturalTechniquesGet`, data)
+  }
+
+  CurrentConditionsGet(data): Observable<any> {
+    return this.http.post(`${baseUrl}CurrentConditionsGet`, data)
+  }
+
+  EventsGet(data): Observable<any> {
+    return this.http.post(`${baseUrl}EventsGet`, data)
+  }
 }

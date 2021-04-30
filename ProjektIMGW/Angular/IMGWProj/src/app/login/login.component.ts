@@ -33,10 +33,12 @@ export class LoginComponent implements OnInit {
 
   loginProces() {
     if (this.formGroup.valid) {
+      console.log(this.formGroup.value);
       this._authService.CheckLogin(this.formGroup.value).subscribe(
         data => 
         {
           if (data.IsCorrect) {
+            console.log(this.formGroup.controls.login.value);
             this._authService.Login(this.formGroup.controls.login.value);
             this._authService.IsLoggedIn();
             this._router.navigateByUrl(`/currentconditions`);

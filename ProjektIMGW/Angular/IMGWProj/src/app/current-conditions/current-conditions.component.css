@@ -1,9 +1,13 @@
-.currentConditionsTab {
+.currentConditionsTabs {
   text-align: center;
 }
 
-.currentConditionsTab td,
-th {
-  padding: 5px;
+.currentConditionsTabs td,
+.currentConditionsTabs th {
+  padding: 10px;
   border: solid 1px black;
+}
+
+.tableSpace {
+  margin: 30px;
 }

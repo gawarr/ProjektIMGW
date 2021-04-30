@@ -100,10 +100,11 @@ def LastSuccessfulLoginSet(db, login):
 @ app.route('/AgriculturalTechniquesGet', methods=['POST'])
 def AgriculturalTechniquesGet():
     try:
+        db = GetConnectionToDb()
         request_data = request.get_json()
+        print(request_data)
         login = request_data['login']
         AgriculturalTechniquesTable = []
-        db = GetConnectionToDb()
 
         cursor = db.cursor()
         cursor.execute(
