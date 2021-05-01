@@ -4,6 +4,8 @@ TRUNCATE TABLE [User].[Users]
 DROP TABLE [User].[Users]
 DROP SCHEMA [User]
 
+DROP PROCEDURE [CurrentConditions].[CultivationStatesListGet]
+DROP PROCEDURE [CurrentConditions].[PlantsListGet]
 DROP PROCEDURE [CurrentConditions].[ActionsListGet]
 DROP PROCEDURE [CurrentConditions].[EventsGet]
 DROP PROCEDURE [CurrentConditions].[EventsAdd]

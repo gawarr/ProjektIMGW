@@ -37,4 +37,12 @@ export class DataService {
   ActionsListGet() {
     return this.http.get(`${baseUrl}Actions`)
   }
+
+  PlantTypesListGet() {
+    return this.http.get(`${baseUrl}PlantTypes`)
+  }
+
+  CultivationStatesListGet() {
+    return this.http.get(`${baseUrl}CultivationStates`)
+  }
 }

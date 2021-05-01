@@ -22,6 +22,11 @@ export class CurrentConditionsComponent implements OnInit {
   AgriculturalTechniquesGroup: FormGroup;
   actionsList: Object;
 
+  CurrentConditionsGroup: FormGroup;
+  plantsList: Object;
+  statesList: Object;
+  
+
   constructor(private _dataService: DataService, public _authService: AuthService, private _router: Router) { }
 
   ngOnInit(): void {
@@ -70,6 +75,15 @@ export class CurrentConditionsComponent implements OnInit {
       data2: new FormControl('', [Validators.required])
     });
     this.ActionsListGet();
+    
+    this.CurrentConditionsGroup = new FormGroup({
+      login:  new FormControl(this._authService.login, [Validators.required]),
+      plantTypeId: new FormControl('', [Validators.required]),
+      sowingDate: new FormControl('', [Validators.required]),
+      cultivationStateId: new FormControl('', [Validators.required])
+    });
+    this.PlantTypesListGet();
+    this.CultivationStatesListGet();
   }
 
   AgriculturalTechniquesAdd() {
@@ -78,6 +92,16 @@ export class CurrentConditionsComponent implements OnInit {
         data => {}
       );
     this.AgriculturalTechniquesGet();
+    this.initForms();
+    }
+  }
+
+  CurrentConditionsAdd() {
+    if (this.CurrentConditionsGroup.valid) {
+      this._dataService.CurrentConditionsAdd(this.CurrentConditionsGroup.value).subscribe(
+        data => {}
+      );
+    this.CurrentConditionsGet();
     this.initForms();
     }
   }
@@ -91,13 +115,33 @@ export class CurrentConditionsComponent implements OnInit {
     );
   }
 
-  AgriculturalTechniquesShowAddStuff() {
-    document.getElementById("AgriculturalTechniquesSbtBtn").style.display="block";
-    document.getElementById("AgriculturalTechniquesAddBtn").style.display="none";
+  PlantTypesListGet() {
+    this._dataService.PlantTypesListGet().subscribe(
+      data =>
+      {
+        this.plantsList = data;
+      }
+    );
   }
 
-  AgriculturalTechniquesHideAddStuff() {
-    document.getElementById("AgriculturalTechniquesAddBtn").style.display="block";
-    document.getElementById("AgriculturalTechniquesSbtBtn").style.display="none";
+  CultivationStatesListGet() {
+    this._dataService.CultivationStatesListGet().subscribe(
+      data =>
+      {
+        this.statesList = data;
+      }
+    );
   }
+
+  //AgriculturalTechniquesShowAddStuff() {
+  //  document.getElementById("AgriculturalTechniquesSbtBtn").style.display="block";
+  //  document.getElementById("AgriculturalTechniquesAddForm").style.display="block";
+  //  document.getElementById("AgriculturalTechniquesAddBtn").style.display="none";
+  //}
+//
+  //AgriculturalTechniquesHideAddStuff() {
+  //  document.getElementById("AgriculturalTechniquesAddBtn").style.display="block";
+  //  document.getElementById("AgriculturalTechniquesSbtBtn").style.display="none";
+  //  document.getElementById("AgriculturalTechniquesAddForm").style.display="none";
+  //}
 }

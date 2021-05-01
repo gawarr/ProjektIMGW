@@ -43,6 +43,18 @@ class Action:
         self.Name = name
 
 
+class Plant:
+    def __init__(self, plantTypeId, name):
+        self.PlantTypeId = plantTypeId
+        self.Name = name
+
+
+class CultivationState:
+    def __init__(self, cultivationStateId, name):
+        self.CultivationStateId = cultivationStateId
+        self.Name = name
+
+
 def GetConnectionToDb():
     db = pyodbc.connect(
         'Driver={ODBC Driver 17 for SQL Server};'
@@ -237,6 +249,47 @@ def ActionsGet():
             Actions.append(Action(actionId, name))
 
         return Response(jsonpickle.encode(Actions, unpicklable=False), mimetype='application/json')
+    except:
+        return jsonify(Status='Cos poszlo nie tak')
+    finally:
+        db.close()
+
+
+@ app.route('/PlantTypes', methods=['GET'])
+def PlantTypesGet():
+    try:
+        Plants = []
+        db = GetConnectionToDb()
+
+        cursor = db.cursor()
+        cursor.execute(
+            'EXEC [CurrentConditions].[PlantsListGet]')
+
+        for (plantTypeId, name) in cursor:
+            Plants.append(Plant(plantTypeId, name))
+
+        return Response(jsonpickle.encode(Plants, unpicklable=False), mimetype='application/json')
+    except:
+        return jsonify(Status='Cos poszlo nie tak')
+    finally:
+        db.close()
+
+
+@ app.route('/CultivationStates', methods=['GET'])
+def CultivationStatesGet():
+    try:
+        CultivationStates = []
+        db = GetConnectionToDb()
+
+        cursor = db.cursor()
+        cursor.execute(
+            'EXEC [CurrentConditions].[CultivationStatesListGet]')
+
+        for (cultivationStateId, name) in cursor:
+            CultivationStates.append(
+                CultivationState(cultivationStateId, name))
+
+        return Response(jsonpickle.encode(CultivationStates, unpicklable=False), mimetype='application/json')
     except:
         return jsonify(Status='Cos poszlo nie tak')
     finally:

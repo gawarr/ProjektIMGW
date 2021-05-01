@@ -468,3 +468,37 @@ WHERE
 	IsEnabled = 1
 END
 GO
+-- =============================================
+-- Author:		Paweł Gawarecki
+-- Create date: 24.04.2021
+-- Description:	Procedura pobierająca listę typów roślin
+-- =============================================
+CREATE PROCEDURE [CurrentConditions].[PlantsListGet]
+AS
+BEGIN
+	SELECT
+	 PlantTypeId
+	,Name
+FROM 
+	[CurrentConditions].[PlantTypes]
+WHERE
+	IsEnabled = 1
+END
+GO
+-- =============================================
+-- Author:		Paweł Gawarecki
+-- Create date: 24.04.2021
+-- Description:	Procedura pobierająca listę stanów upraw
+-- =============================================
+CREATE PROCEDURE [CurrentConditions].[CultivationStatesListGet]
+AS
+BEGIN
+	SELECT
+	 CultivationStateId
+	,Name
+FROM 
+	[CurrentConditions].[CultivationStates]
+WHERE
+	IsEnabled = 1
+END
+GO
