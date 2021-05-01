@@ -429,7 +429,7 @@ CREATE PROCEDURE [CurrentConditions].[EventsAdd]
 	,@EventDate DATE
 	,@EventTypeId TINYINT
 	,@LossesPercentage TINYINT
-	,@PhotoPath VARCHAR(80)
+	,@PhotoPath VARCHAR(80) = NULL
 AS
 BEGIN
 	DECLARE @UserId BIGINT
@@ -498,6 +498,23 @@ BEGIN
 	,Name
 FROM 
 	[CurrentConditions].[CultivationStates]
+WHERE
+	IsEnabled = 1
+END
+GO
+-- =============================================
+-- Author:		Paweł Gawarecki
+-- Create date: 24.04.2021
+-- Description:	Procedura pobierająca listę możliwych zdarzeń
+-- =============================================
+CREATE PROCEDURE [CurrentConditions].[EventsListGet]
+AS
+BEGIN
+	SELECT
+	 EventTypeId
+	,Name
+FROM 
+	[CurrentConditions].[EventTypes]
 WHERE
 	IsEnabled = 1
 END

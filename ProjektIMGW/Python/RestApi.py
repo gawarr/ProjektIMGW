@@ -55,6 +55,12 @@ class CultivationState:
         self.Name = name
 
 
+class EventType:
+    def __init__(self, eventTypeId, name):
+        self.EventTypeId = eventTypeId
+        self.Name = name
+
+
 def GetConnectionToDb():
     db = pyodbc.connect(
         'Driver={ODBC Driver 17 for SQL Server};'
@@ -290,6 +296,27 @@ def CultivationStatesGet():
                 CultivationState(cultivationStateId, name))
 
         return Response(jsonpickle.encode(CultivationStates, unpicklable=False), mimetype='application/json')
+    except:
+        return jsonify(Status='Cos poszlo nie tak')
+    finally:
+        db.close()
+
+
+@ app.route('/EventTypes', methods=['GET'])
+def EventTypesGet():
+    try:
+        EventTypes = []
+        db = GetConnectionToDb()
+
+        cursor = db.cursor()
+        cursor.execute(
+            'EXEC [CurrentConditions].[EventsListGet]')
+
+        for (eventTypeId, name) in cursor:
+            EventTypes.append(
+                EventType(eventTypeId, name))
+
+        return Response(jsonpickle.encode(EventTypes, unpicklable=False), mimetype='application/json')
     except:
         return jsonify(Status='Cos poszlo nie tak')
     finally:

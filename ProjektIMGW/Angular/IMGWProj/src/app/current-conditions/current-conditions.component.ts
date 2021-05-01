@@ -25,6 +25,9 @@ export class CurrentConditionsComponent implements OnInit {
   CurrentConditionsGroup: FormGroup;
   plantsList: Object;
   statesList: Object;
+
+  EventsGroup: FormGroup;
+  eventsList: Object;
   
 
   constructor(private _dataService: DataService, public _authService: AuthService, private _router: Router) { }
@@ -84,6 +87,15 @@ export class CurrentConditionsComponent implements OnInit {
     });
     this.PlantTypesListGet();
     this.CultivationStatesListGet();
+
+    this.EventsGroup = new FormGroup({
+      login: new FormControl(this._authService.login, [Validators.required]),
+      eventDate: new FormControl('', [Validators.required]),
+      eventTypeId: new FormControl('', [Validators.required]),
+      lossesPercentage: new FormControl('', [Validators.required]),
+      photoPath: new FormControl('')
+    });
+    this.EventTypesListGet();
   }
 
   AgriculturalTechniquesAdd() {
@@ -129,6 +141,26 @@ export class CurrentConditionsComponent implements OnInit {
       data =>
       {
         this.statesList = data;
+      }
+    );
+  }
+
+  EventsAdd() {
+    if (this.EventsGroup.valid) {
+      this._dataService.EventsAdd(this.EventsGroup.value).subscribe(
+        data => {}
+      );
+    this.EventsGet();
+    this.initForms();
+    }
+  }
+
+  EventTypesListGet() {
+    this._dataService.EventsListGet().subscribe(
+      data =>
+      {
+        console.log(data);
+        this.eventsList = data;
       }
     );
   }

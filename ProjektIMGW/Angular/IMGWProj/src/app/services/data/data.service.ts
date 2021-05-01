@@ -45,4 +45,8 @@ export class DataService {
   CultivationStatesListGet() {
     return this.http.get(`${baseUrl}CultivationStates`)
   }
+
+  EventsListGet() {
+    return this.http.get(`${baseUrl}EventTypes`)
+  }
 }

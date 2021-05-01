@@ -72,7 +72,9 @@
     </div>
     <div class="tableSpace">
         <h2>Dziennik zdarzeń</h2>
-        <table class="currentConditionsTabs">
+        <form [formGroup]="EventsGroup" (ngSubmit)="EventsAdd()">
+            <input type="hidden" name="login" id="login" class="inputLogin" formControlName="login">
+            <table class="currentConditionsTabs">
             <tr>
                 <th>Data</th>
                 <th>Zdarzenie</th>
@@ -85,6 +87,24 @@
                 <td>{{ value.LossesPercentage }}</td>
                 <td>{{ value.PhotoPath }}</td>
             </tr>
-        </table>
+            <tr id="EventsAddForm">
+                <td>
+                    <input type="date" formControlName="eventDate">
+                </td>
+                <td>
+                    <select formControlName="eventTypeId">
+                        <option *ngFor="let event of eventsList" [ngValue]="event.EventTypeId">{{event.Name}}</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="number" formControlName="lossesPercentage">
+                </td>
+                <td>
+                    <input type="text" formControlName="photoPath">
+                </td>
+            </tr>
+            </table>
+            <input class="buttons" id="EventsSbtBtn" type="submit" value="Zapisz">
+        </form>
     </div>
 </div>
