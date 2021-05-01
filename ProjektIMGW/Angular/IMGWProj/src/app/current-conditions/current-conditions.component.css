@@ -11,3 +11,11 @@
 .tableSpace {
   margin: 30px;
 }
+
+.buttons {
+  margin: 10px;
+}
+
+#AgriculturalTechniquesSbtBtn {
+  display: none;
+}

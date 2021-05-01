@@ -451,3 +451,20 @@ BEGIN
 	)
 END
 GO
+-- =============================================
+-- Author:		Paweł Gawarecki
+-- Create date: 24.04.2021
+-- Description:	Procedura pobierająca listę możliwych akcji do wyboru
+-- =============================================
+CREATE PROCEDURE [CurrentConditions].[ActionsListGet]
+AS
+BEGIN
+	SELECT
+	 ActionId
+	,Name
+FROM 
+	[CurrentConditions].[Actions]
+WHERE
+	IsEnabled = 1
+END
+GO

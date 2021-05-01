@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { stringify } from '@angular/compiler/src/util';
 import { AuthService } from '../services/auth/auth.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-current-conditions',
@@ -18,6 +19,9 @@ export class CurrentConditionsComponent implements OnInit {
 
   jsonLogin: Object;
 
+  AgriculturalTechniquesGroup: FormGroup;
+  actionsList: Object;
+
   constructor(private _dataService: DataService, public _authService: AuthService, private _router: Router) { }
 
   ngOnInit(): void {
@@ -27,13 +31,13 @@ export class CurrentConditionsComponent implements OnInit {
     this.AgriculturalTechniquesGet();
     this.CurrentConditionsGet();
     this.EventsGet();
+    this.initForms();
   }
 
   AgriculturalTechniquesGet() {
     this._dataService.AgriculturalTechniquesGet(this.jsonLogin).subscribe(
       data =>
       {
-        console.log(data);
         this.conditionsTable = data;
       }
     );
@@ -43,7 +47,6 @@ export class CurrentConditionsComponent implements OnInit {
     this._dataService.CurrentConditionsGet(this.jsonLogin).subscribe(
       data =>
       {
-        console.log(data);
         this.currentConditionsTable = data;
       }
     );
@@ -53,9 +56,48 @@ export class CurrentConditionsComponent implements OnInit {
     this._dataService.EventsGet(this.jsonLogin).subscribe(
       data =>
       {
-        console.log(data);
         this.eventsTable = data;
       }
     );
+  }
+
+  initForms() {
+    this.AgriculturalTechniquesGroup = new FormGroup({
+      login:  new FormControl(this._authService.login, [Validators.required]),
+      agriculturalDate: new FormControl('', [Validators.required]),
+      actionId: new FormControl('', [Validators.required]),
+      data1: new FormControl('', [Validators.required]),
+      data2: new FormControl('', [Validators.required])
+    });
+    this.ActionsListGet();
+  }
+
+  AgriculturalTechniquesAdd() {
+    if (this.AgriculturalTechniquesGroup.valid) {
+      this._dataService.AgriculturalTechniquesAdd(this.AgriculturalTechniquesGroup.value).subscribe(
+        data => {}
+      );
+    this.AgriculturalTechniquesGet();
+    this.initForms();
+    }
+  }
+
+  ActionsListGet() {
+    this._dataService.ActionsListGet().subscribe(
+      data =>
+      {
+        this.actionsList = data;
+      }
+    );
+  }
+
+  AgriculturalTechniquesShowAddStuff() {
+    document.getElementById("AgriculturalTechniquesSbtBtn").style.display="block";
+    document.getElementById("AgriculturalTechniquesAddBtn").style.display="none";
+  }
+
+  AgriculturalTechniquesHideAddStuff() {
+    document.getElementById("AgriculturalTechniquesAddBtn").style.display="block";
+    document.getElementById("AgriculturalTechniquesSbtBtn").style.display="none";
   }
 }

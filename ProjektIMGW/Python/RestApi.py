@@ -37,6 +37,12 @@ class Events:
         self.PhotoPath = photoPath
 
 
+class Action:
+    def __init__(self, actionId, name):
+        self.ActionId = actionId
+        self.Name = name
+
+
 def GetConnectionToDb():
     db = pyodbc.connect(
         'Driver={ODBC Driver 17 for SQL Server};'
@@ -102,7 +108,6 @@ def AgriculturalTechniquesGet():
     try:
         db = GetConnectionToDb()
         request_data = request.get_json()
-        print(request_data)
         login = request_data['login']
         AgriculturalTechniquesTable = []
 
@@ -211,7 +216,27 @@ def EventsAdd():
             'EXEC [CurrentConditions].[EventsAdd] ?, ?, ?, ?, ?', request_data['login'], request_data['eventDate'], request_data['eventTypeId'],    request_data['lossesPercentage'], request_data['photoPath'])
         db.commit()
 
-        return jsonify(Status='OK'), 201
+        return jsonify(Status='Dodano event do listy'), 201
+    except:
+        return jsonify(Status='Cos poszlo nie tak')
+    finally:
+        db.close()
+
+
+@ app.route('/Actions', methods=['GET'])
+def ActionsGet():
+    try:
+        Actions = []
+        db = GetConnectionToDb()
+
+        cursor = db.cursor()
+        cursor.execute(
+            'EXEC [CurrentConditions].[ActionsListGet]')
+
+        for (actionId, name) in cursor:
+            Actions.append(Action(actionId, name))
+
+        return Response(jsonpickle.encode(Actions, unpicklable=False), mimetype='application/json')
     except:
         return jsonify(Status='Cos poszlo nie tak')
     finally:

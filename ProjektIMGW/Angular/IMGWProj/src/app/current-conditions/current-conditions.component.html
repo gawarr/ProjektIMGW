@@ -1,19 +1,38 @@
+<script src="./current-cconditions.component.js"></script>
 <div class="container">
+    <div style="float: right;">
+        <input type="button" value="wyloguj" (click)="this._authService.LogOut()">
+    </div>
     <div class="tableSpace">
         <h2>Zabiegi Agroturystyczne</h2>
-        <table class="currentConditionsTabs">
-            <tr>
-                <th>Data</th>
-                <th>Czynnosć</th>
-                <th colspan="2">Dane</th>
-            </tr>
-            <tr *ngFor="let value of conditionsTable">
-                <td>{{ value.AgriculturalDate }}</td>
-                <td>{{ value.Name }}</td>
-                <td>{{ value.Data1 }}</td>
-                <td>{{ value.Data2 }}</td>
-            </tr>
-        </table>
+        <form [formGroup]="AgriculturalTechniquesGroup" (ngSubmit)="AgriculturalTechniquesAdd()">
+            <input type="hidden" name="login" id="login" class="inputLogin" formControlName="login">
+            <table class="currentConditionsTabs">
+                <tr>
+                    <th>Data</th>
+                    <th>Czynnosć</th>
+                    <th colspan="2">Dane</th>
+                </tr>
+                <tr *ngFor="let value of conditionsTable">
+                    <td>{{ value.AgriculturalDate }}</td>
+                    <td>{{ value.Name }}</td>
+                    <td>{{ value.Data1 }}</td>
+                    <td>{{ value.Data2 }}</td>
+                </tr>
+                <tr id="AgriculturalTechniquesAddForm">
+                    <td><input type="date" name="agriculturalDate" id="agriculturalDate" formControlName="agriculturalDate"></td>
+                    <td>
+                        <select formControlName="actionId">
+                            <option *ngFor="let action of actionsList" [ngValue]="action.ActionId">{{action.Name}}</option>
+                        </select>
+                    </td>
+                    <td><input type="text" name="data1" id="data1" formControlName="data1"></td>
+                    <td><input type="text" name="data2" id="data2" formControlName="data2"></td>
+                </tr>
+            </table>
+            <input class="buttons" id="AgriculturalTechniquesAddBtn" type="button" value="Dodaj" (click)="AgriculturalTechniquesShowAddStuff()">
+            <input class="buttons" id="AgriculturalTechniquesSbtBtn" type="submit" value="Zapisz" (click)="AgriculturalTechniquesHideAddStuff()">
+        </form>
     </div>
     <div class="tableSpace">
         <h2>Warunki bierzące</h2>
@@ -47,8 +66,4 @@
             </tr>
         </table>
     </div>
-</div>
-
-<div>
-    <input type="button" value="wyloguj" (click)="this._authService.LogOut()">
 </div>
