@@ -10,6 +10,10 @@ export class DataService {
 
   constructor(private http: HttpClient) { }
 
+  LocatizationsGet(data): Observable<any> {
+    return this.http.post(`${baseUrl}LocalizationsGet`, data)
+  }
+
   AgriculturalTechniquesGet(data): Observable<any> {
     return this.http.post(`${baseUrl}AgriculturalTechniquesGet`, data)
   }

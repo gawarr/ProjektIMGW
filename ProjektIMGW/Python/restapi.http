@@ -12,7 +12,7 @@ POST http://localhost:3000/AgriculturalTechniquesGet
 Content-Type: application/json
 
 {
-    "login": "admin"
+    "localizationId": 2
 }
 
 ###
@@ -21,7 +21,7 @@ POST http://localhost:3000/AgriculturalTechniquesAdd
 Content-Type: application/json
 
 {
-    "login": "admin",
+    "localizationId": 2,
     "agriculturalDate": "04-01-21",
     "actionId": 1,
     "data1": "S",
@@ -34,7 +34,7 @@ POST http://localhost:3000/CurrentConditionsGet
 Content-Type: application/json
 
 {
-    "login": "admin"
+    "localizationId": 1
 }
 
 ###
@@ -43,9 +43,9 @@ POST http://localhost:3000/CurrentConditionsAdd
 Content-Type: application/json
 
 {
-    "login": "admin",
+    "localizationId": 1,
     "plantTypeId": 3,
-    "sowingDate": "08-20-21",
+    "sowingDate": "08-20-20",
     "cultivationStateId": 2
 }
 
@@ -55,7 +55,7 @@ POST http://localhost:3000/EventsGet
 Content-Type: application/json
 
 {
-    "login": "admin"
+    "localizationId": 1
 }
 
 ###
@@ -64,9 +64,22 @@ POST http://localhost:3000/EventsAdd
 Content-Type: application/json
 
 {
-    "login": "admin",
+    "localizationId": 1,
     "eventDate": "04-20-21",
     "eventTypeId": "2",
     "lossesPercentage": 15,
     "photoPath": "C:/zdj/zdj3.jpg"
 }
+###
+
+POST http://localhost:3000/LocalizationsGet
+Content-Type: application/json
+
+{
+    "login": "admin"
+}
+###
+
+GET http://localhost:3000/PlantTypes
+
+

@@ -1,110 +1,133 @@
-<script src="./current-cconditions.component.js"></script>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">IMGW</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <form class="d-flex">
+            <button class="btn btn-outline-success" type="button" (click)="this._authService.LogOut()">Wyloguj</button>
+        </form>
+    </div>
+</nav>
+
 <div class="container">
-    <div style="float: right;">
-        <input type="button" value="wyloguj" (click)="this._authService.LogOut()">
-    </div>
-    <div class="tableSpace">
-        <h2>Zabiegi Agroturystyczne</h2>
-        <form [formGroup]="AgriculturalTechniquesGroup" (ngSubmit)="AgriculturalTechniquesAdd()">
-            <input type="hidden" name="login" id="login" class="inputLogin" formControlName="login">
-            <table class="currentConditionsTabs">
-                <tr>
-                    <th>Data</th>
-                    <th>Czynnosć</th>
-                    <th colspan="2">Dane</th>
-                </tr>
-                <tr *ngFor="let value of conditionsTable">
-                    <td>{{ value.AgriculturalDate }}</td>
-                    <td>{{ value.Name }}</td>
-                    <td>{{ value.Data1 }}</td>
-                    <td>{{ value.Data2 }}</td>
-                </tr>
-                <tr id="AgriculturalTechniquesAddForm">
-                    <td><input type="date" name="agriculturalDate" id="agriculturalDate" formControlName="agriculturalDate"></td>
-                    <td>
-                        <select formControlName="actionId">
-                            <option *ngFor="let action of actionsList" [ngValue]="action.ActionId">{{action.Name}}</option>
-                        </select>
-                    </td>
-                    <td><input type="text" name="data1" id="data1" formControlName="data1"></td>
-                    <td><input type="text" name="data2" id="data2" formControlName="data2"></td>
-                </tr>
-            </table>
-            <input class="buttons" id="AgriculturalTechniquesSbtBtn" type="submit" value="Zapisz">
-            <!-- <input class="buttons" id="AgriculturalTechniquesAddBtn" type="button" value="Dodaj" (click)="AgriculturalTechniquesShowAddStuff()">
-            <input class="buttons" id="AgriculturalTechniquesSbtBtn" type="submit" value="Zapisz" (click)="AgriculturalTechniquesHideAddStuff()"> -->
-        </form>
-    </div>
-    <div class="tableSpace">
-        <h2>Warunki bierzące</h2>
-        <form [formGroup]="CurrentConditionsGroup" (ngSubmit)="CurrentConditionsAdd()">
-            <input type="hidden" name="login" id="login" class="inputLogin" formControlName="login">
-            <table class="currentConditionsTabs">
-                <tr>
-                    <th>Roślina</th>
-                    <th>Termin siewu</th>
-                    <th>Kondycja uprawy</th>
-                </tr>
-                <tr *ngFor="let value of currentConditionsTable">
-                    <td>{{ value.PlantName }}</td>
-                    <td>{{ value.SowingDate }}</td>
-                    <td>{{ value.State }}</td>
-                </tr>
-                <tr id="CurrentConditionsAddForm">
-                    <td>
-                        <select formControlName="plantTypeId">
-                            <option *ngFor="let plant of plantsList" [ngValue]="plant.PlantId">{{plant.Name}}</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="date" formControlName="sowingDate">
-                    </td>
-                    <td>
-                        <select formControlName="cultivationStateId">
-                            <option *ngFor="let state of statesList" [ngValue]="state.StateId">{{state.Name}}</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
-            <!-- <input class="buttons" id="CurrentConditionsAddBtn" type="button" value="Dodaj"> -->
-            <input class="buttons" id="CurrentConditionsSbtBtn" type="submit" value="Zapisz">
-        </form>
-    </div>
-    <div class="tableSpace">
-        <h2>Dziennik zdarzeń</h2>
-        <form [formGroup]="EventsGroup" (ngSubmit)="EventsAdd()">
-            <input type="hidden" name="login" id="login" class="inputLogin" formControlName="login">
-            <table class="currentConditionsTabs">
-            <tr>
-                <th>Data</th>
-                <th>Zdarzenie</th>
-                <th>Strata</th>
-                <th></th>
-            </tr>
-            <tr *ngFor="let value of eventsTable">
-                <td>{{ value.EventDate }}</td>
-                <td>{{ value.EventName }}</td>
-                <td>{{ value.LossesPercentage }}</td>
-                <td>{{ value.PhotoPath }}</td>
-            </tr>
-            <tr id="EventsAddForm">
-                <td>
-                    <input type="date" formControlName="eventDate">
-                </td>
-                <td>
-                    <select formControlName="eventTypeId">
-                        <option *ngFor="let event of eventsList" [ngValue]="event.EventTypeId">{{event.Name}}</option>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="tableSpace">
+                <h2>Wybierz lokalizację:</h2>
+                <form [formGroup]="LocalizationsGroup">
+                    <select formControlName="localizationId" (change)="ChangeLocation()">
+                        <option *ngFor="let localization of localizationsList" [ngValue]="localization.LocalizationId">{{localization.Name}}</option>
                     </select>
-                </td>
-                <td>
-                    <input type="number" formControlName="lossesPercentage">
-                </td>
-                <td>
-                    <input type="text" formControlName="photoPath">
-                </td>
-            </tr>
-            </table>
-            <input class="buttons" id="EventsSbtBtn" type="submit" value="Zapisz">
-        </form>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="tableSpace">
+                <h2>Zabiegi Agroturystyczne</h2>
+                <form [formGroup]="AgriculturalTechniquesGroup" (ngSubmit)="AgriculturalTechniquesAdd()">
+                    <input type="hidden" name="login" id="login" class="inputLogin" formControlName="localizationId">
+                    <table class="currentConditionsTabs">
+                        <tr>
+                            <th>Data</th>
+                            <th>Czynnosć</th>
+                            <th colspan="2">Dane</th>
+                        </tr>
+                        <tr *ngFor="let value of conditionsTable">
+                            <td>{{ value.AgriculturalDate }}</td>
+                            <td>{{ value.Name }}</td>
+                            <td>{{ value.Data1 }}</td>
+                            <td>{{ value.Data2 }}</td>
+                        </tr>
+                        <tr id="AgriculturalTechniquesAddForm">
+                            <td><input type="date" name="agriculturalDate" id="agriculturalDate" formControlName="agriculturalDate"></td>
+                            <td>
+                                <select formControlName="actionId">
+                                    <option *ngFor="let action of actionsList" [ngValue]="action.ActionId">{{action.Name}}</option>
+                                </select>
+                            </td>
+                            <td><input type="text" name="data1" id="data1" formControlName="data1"></td>
+                            <td><input type="text" name="data2" id="data2" formControlName="data2"></td>
+                        </tr>
+                    </table>
+                    <input class="buttons btn btn-outline-success" id="AgriculturalTechniquesSbtBtn" type="submit" value="Zapisz">
+                    <!-- <input class="buttons" id="AgriculturalTechniquesAddBtn" type="button" value="Dodaj" (click)="AgriculturalTechniquesShowAddStuff() ">
+                    <input class="buttons" id="AgriculturalTechniquesSbtBtn" type="submit" value="Zapisz" (click)="AgriculturalTechniquesHideAddStuff()">   -->
+                </form>
+            </div>
+            <div class="tableSpace">
+                <h2>Warunki bierzące</h2>
+                <form [formGroup]="CurrentConditionsGroup" (ngSubmit)="CurrentConditionsAdd()">
+                    <input type="hidden" name="login" id="login" class="inputLogin" formControlName="localizationId">
+                    <table class="currentConditionsTabs">
+                        <tr>
+                            <th>Roślina</th>
+                            <th>Termin siewu</th>
+                            <th>Kondycja uprawy</th>
+                        </tr>
+                        <tr *ngFor="let value of currentConditionsTable">
+                            <td>{{ value.PlantName }}</td>
+                            <td>{{ value.SowingDate }}</td>
+                            <td>{{ value.State }}</td>
+                        </tr>
+                        <tr id="CurrentConditionsAddForm">
+                            <td>
+                                <select formControlName="plantTypeId">
+                                    <option *ngFor="let plant of plantsList" [ngValue]="plant.PlantTypeId">{{plant.Name}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="date" formControlName="sowingDate">
+                            </td>
+                            <td>
+                                <select formControlName="cultivationStateId">
+                                    <option *ngFor="let state of statesList" [ngValue]="state.CultivationStateId">{{state.Name}}</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                    <!-- <input class="buttons" id="CurrentConditionsAddBtn" type="button" value="Dodaj"> -->
+                    <input class="buttons btn btn-outline-success" id="CurrentConditionsSbtBtn" type="submit" value="Zapisz">
+                </form>
+            </div>
+            <div class="tableSpace">
+                <h2>Dziennik zdarzeń</h2>
+                <form [formGroup]="EventsGroup" (ngSubmit)="EventsAdd()">
+                    <input type="hidden" name="login" id="login" class="inputLogin" formControlName="localizationId">
+                    <table class="currentConditionsTabs">
+                    <tr>
+                        <th>Data</th>
+                        <th>Zdarzenie</th>
+                        <th>Strata</th>
+                        <th>Obraz</th>
+                    </tr>
+                    <tr *ngFor="let value of eventsTable">
+                        <td>{{ value.EventDate }}</td>
+                        <td>{{ value.EventName }}</td>
+                        <td>{{ value.LossesPercentage }}</td>
+                        <td>{{ value.PhotoPath }}</td>
+                    </tr>
+                    <tr id="EventsAddForm">
+                        <td>
+                            <input type="date" formControlName="eventDate">
+                        </td>
+                        <td>
+                            <select formControlName="eventTypeId">
+                                <option *ngFor="let event of eventsList" [ngValue]="event.EventTypeId">{{event.Name}}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" formControlName="lossesPercentage">
+                        </td>
+                        <td>
+                            <input type="text" formControlName="photoPath">
+                        </td>
+                    </tr>
+                    </table>
+                    <input class="buttons btn btn-outline-success" id="EventsSbtBtn" type="submit" value="Zapisz">
+                </form>
+            </div>
+        </div>
     </div>
 </div>

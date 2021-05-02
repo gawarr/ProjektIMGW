@@ -14,6 +14,12 @@ class ValidationState:
         self.Message = message
 
 
+class Localization:
+    def __init__(self, localizationId, name):
+        self.LocalizationId = localizationId
+        self.Name = name
+
+
 class AgriculturalTechniques:
     def __init__(self, agriculturalDate, name, data1, data2):
         self.AgriculturalDate = agriculturalDate
@@ -121,17 +127,37 @@ def LastSuccessfulLoginSet(db, login):
     db.commit()
 
 
+@ app.route('/LocalizationsGet', methods=['POST'])
+def LocalizationsGet():
+    try:
+        db = GetConnectionToDb()
+        request_data = request.get_json()
+        login = request_data['login']
+        LocalizationsTable = []
+        cursor = db.cursor()
+        cursor.execute(
+            'EXEC [CurrentConditions].[LocalizationsGet] ?', login)
+        for (localizationId, name) in cursor:
+            LocalizationsTable.append(Localization(localizationId, name))
+
+        return Response(jsonpickle.encode(LocalizationsTable, unpicklable=False), mimetype='application/json')
+    except:
+        return jsonify(Status='Cos poszlo nie tak')
+    finally:
+        db.close()
+
+
 @ app.route('/AgriculturalTechniquesGet', methods=['POST'])
 def AgriculturalTechniquesGet():
     try:
         db = GetConnectionToDb()
         request_data = request.get_json()
-        login = request_data['login']
+        localizationId = request_data['localizationId']
         AgriculturalTechniquesTable = []
 
         cursor = db.cursor()
         cursor.execute(
-            'EXEC [CurrentConditions].[AgriculturalTechniquesGet] ?', login)
+            'EXEC [CurrentConditions].[AgriculturalTechniquesGet] ?', localizationId)
 
         for (agriculturalDate, name, data1, data2) in cursor:
             AgriculturalTechniquesTable.append(AgriculturalTechniques(
@@ -151,10 +177,10 @@ def AgriculturalTechniquesAdd():
         db = GetConnectionToDb()
         cursor = db.cursor()
         cursor.execute(
-            'EXEC [CurrentConditions].[AgriculturalTechniquesAdd] ?, ?, ?, ?, ?', request_data['login'], request_data['agriculturalDate'], request_data['actionId'],    request_data['data1'], request_data['data2'])
+            'EXEC [CurrentConditions].[AgriculturalTechniquesAdd] ?, ?, ?, ?, ?', request_data['localizationId'], request_data['agriculturalDate'], request_data['actionId'],    request_data['data1'], request_data['data2'])
         db.commit()
 
-        return jsonify(Status='OK'), 201
+        return jsonify(Status='Dodano zabieg do listy'), 201
     except:
         return jsonify(Status='Cos poszlo nie tak')
     finally:
@@ -165,13 +191,13 @@ def AgriculturalTechniquesAdd():
 def CurrentConditionsGet():
     try:
         request_data = request.get_json()
-        login = request_data['login']
+        localizationId = request_data['localizationId']
         CurrentConditionsTable = []
         db = GetConnectionToDb()
 
         cursor = db.cursor()
         cursor.execute(
-            'EXEC [CurrentConditions].[CurrentConditionsGet] ?', login)
+            'EXEC [CurrentConditions].[CurrentConditionsGet] ?', localizationId)
 
         for (plantName, sowingDate, state) in cursor:
             CurrentConditionsTable.append(CurrentConditions(
@@ -191,10 +217,10 @@ def CurrentConditionsAdd():
         db = GetConnectionToDb()
         cursor = db.cursor()
         cursor.execute(
-            'EXEC [CurrentConditions].[CurrentConditionsAdd] ?, ?, ?, ?', request_data['login'], request_data['plantTypeId'], request_data['sowingDate'],    request_data['cultivationStateId'])
+            'EXEC [CurrentConditions].[CurrentConditionsAdd] ?, ?, ?, ?', request_data['localizationId'], request_data['plantTypeId'], request_data['sowingDate'],    request_data['cultivationStateId'])
         db.commit()
 
-        return jsonify(Status='OK'), 201
+        return jsonify(Status='Dodano warunki do listy'), 201
     except:
         return jsonify(Status='Cos poszlo nie tak')
     finally:
@@ -205,13 +231,13 @@ def CurrentConditionsAdd():
 def EventsGet():
     try:
         request_data = request.get_json()
-        login = request_data['login']
+        localizationId = request_data['localizationId']
         EventsTab = []
         db = GetConnectionToDb()
 
         cursor = db.cursor()
         cursor.execute(
-            'EXEC [CurrentConditions].[EventsGet] ?', login)
+            'EXEC [CurrentConditions].[EventsGet] ?', localizationId)
 
         for (eventDate, eventName, lossesPercentage, photoPath) in cursor:
             EventsTab.append(Events(
@@ -231,7 +257,7 @@ def EventsAdd():
         db = GetConnectionToDb()
         cursor = db.cursor()
         cursor.execute(
-            'EXEC [CurrentConditions].[EventsAdd] ?, ?, ?, ?, ?', request_data['login'], request_data['eventDate'], request_data['eventTypeId'],    request_data['lossesPercentage'], request_data['photoPath'])
+            'EXEC [CurrentConditions].[EventsAdd] ?, ?, ?, ?, ?', request_data['localizationId'], request_data['eventDate'], request_data['eventTypeId'],    request_data['lossesPercentage'], request_data['photoPath'])
         db.commit()
 
         return jsonify(Status='Dodano event do listy'), 201

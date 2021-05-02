@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { stringify } from '@angular/compiler/src/util';
 import { AuthService } from '../services/auth/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-current-conditions',
@@ -13,11 +14,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./current-conditions.component.css']
 })
 export class CurrentConditionsComponent implements OnInit {
+
   conditionsTable: Object;
   currentConditionsTable: Object;
   eventsTable: Object;
 
   jsonLogin: Object;
+  jsonLocalization: Object;
+
+  LocalizationsGroup: FormGroup;
+  localizationsList: Object;
 
   AgriculturalTechniquesGroup: FormGroup;
   actionsList: Object;
@@ -28,7 +34,6 @@ export class CurrentConditionsComponent implements OnInit {
 
   EventsGroup: FormGroup;
   eventsList: Object;
-  
 
   constructor(private _dataService: DataService, public _authService: AuthService, private _router: Router) { }
 
@@ -36,6 +41,31 @@ export class CurrentConditionsComponent implements OnInit {
     if (!this._authService.IsLoggedIn())
       this._router.navigateByUrl(`/`);
     this.jsonLogin = { "login": this._authService.login }
+
+    this.LocalizationsGet();
+    this.LocalizationsGroup = new FormGroup({
+      localizationId:  new FormControl(1, [Validators.required])
+    });
+    this.jsonLocalization = { "localizationId": this.LocalizationsGroup.controls.localizationId.value };
+
+    this.AgriculturalTechniquesGet();
+    this.CurrentConditionsGet();
+    this.EventsGet();
+
+    this.initForms();
+  }
+
+  LocalizationsGet() {
+    this._dataService.LocatizationsGet(this.jsonLogin).subscribe(
+      data => 
+      {
+        this.localizationsList = data;
+      }
+    );
+  }
+  
+  ChangeLocation() {
+    this.jsonLocalization = { "localizationId": this.LocalizationsGroup.controls.localizationId.value };
     this.AgriculturalTechniquesGet();
     this.CurrentConditionsGet();
     this.EventsGet();
@@ -43,7 +73,7 @@ export class CurrentConditionsComponent implements OnInit {
   }
 
   AgriculturalTechniquesGet() {
-    this._dataService.AgriculturalTechniquesGet(this.jsonLogin).subscribe(
+    this._dataService.AgriculturalTechniquesGet(this.jsonLocalization).subscribe(
       data =>
       {
         this.conditionsTable = data;
@@ -52,7 +82,7 @@ export class CurrentConditionsComponent implements OnInit {
   }
 
   CurrentConditionsGet() {
-    this._dataService.CurrentConditionsGet(this.jsonLogin).subscribe(
+    this._dataService.CurrentConditionsGet(this.jsonLocalization).subscribe(
       data =>
       {
         this.currentConditionsTable = data;
@@ -61,7 +91,7 @@ export class CurrentConditionsComponent implements OnInit {
   }
 
   EventsGet() {
-    this._dataService.EventsGet(this.jsonLogin).subscribe(
+    this._dataService.EventsGet(this.jsonLocalization).subscribe(
       data =>
       {
         this.eventsTable = data;
@@ -70,26 +100,36 @@ export class CurrentConditionsComponent implements OnInit {
   }
 
   initForms() {
+    this.initAgriculturalTechniquesForm();
+    this.initCurrentConditionsForm();
+    this.initEventsForm();
+  }
+
+  initAgriculturalTechniquesForm() {
     this.AgriculturalTechniquesGroup = new FormGroup({
-      login:  new FormControl(this._authService.login, [Validators.required]),
+      localizationId:  new FormControl(this.LocalizationsGroup.controls.localizationId.value, [Validators.required]),
       agriculturalDate: new FormControl('', [Validators.required]),
       actionId: new FormControl('', [Validators.required]),
       data1: new FormControl('', [Validators.required]),
       data2: new FormControl('', [Validators.required])
     });
     this.ActionsListGet();
-    
+  }
+
+  initCurrentConditionsForm() {
     this.CurrentConditionsGroup = new FormGroup({
-      login:  new FormControl(this._authService.login, [Validators.required]),
+      localizationId:  new FormControl(this.LocalizationsGroup.controls.localizationId.value, [Validators.required]),
       plantTypeId: new FormControl('', [Validators.required]),
       sowingDate: new FormControl('', [Validators.required]),
       cultivationStateId: new FormControl('', [Validators.required])
     });
     this.PlantTypesListGet();
     this.CultivationStatesListGet();
+  }
 
+  initEventsForm() {
     this.EventsGroup = new FormGroup({
-      login: new FormControl(this._authService.login, [Validators.required]),
+      localizationId:  new FormControl(this.LocalizationsGroup.controls.localizationId.value, [Validators.required]),
       eventDate: new FormControl('', [Validators.required]),
       eventTypeId: new FormControl('', [Validators.required]),
       lossesPercentage: new FormControl('', [Validators.required]),
@@ -104,7 +144,7 @@ export class CurrentConditionsComponent implements OnInit {
         data => {}
       );
     this.AgriculturalTechniquesGet();
-    this.initForms();
+    this.initAgriculturalTechniquesForm();
     }
   }
 
@@ -114,7 +154,7 @@ export class CurrentConditionsComponent implements OnInit {
         data => {}
       );
     this.CurrentConditionsGet();
-    this.initForms();
+    this.initCurrentConditionsForm();
     }
   }
 
@@ -151,7 +191,7 @@ export class CurrentConditionsComponent implements OnInit {
         data => {}
       );
     this.EventsGet();
-    this.initForms();
+    this.initEventsForm();
     }
   }
 
@@ -159,21 +199,8 @@ export class CurrentConditionsComponent implements OnInit {
     this._dataService.EventsListGet().subscribe(
       data =>
       {
-        console.log(data);
         this.eventsList = data;
       }
     );
   }
-
-  //AgriculturalTechniquesShowAddStuff() {
-  //  document.getElementById("AgriculturalTechniquesSbtBtn").style.display="block";
-  //  document.getElementById("AgriculturalTechniquesAddForm").style.display="block";
-  //  document.getElementById("AgriculturalTechniquesAddBtn").style.display="none";
-  //}
-//
-  //AgriculturalTechniquesHideAddStuff() {
-  //  document.getElementById("AgriculturalTechniquesAddBtn").style.display="block";
-  //  document.getElementById("AgriculturalTechniquesSbtBtn").style.display="none";
-  //  document.getElementById("AgriculturalTechniquesAddForm").style.display="none";
-  //}
 }

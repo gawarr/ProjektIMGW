@@ -58,9 +58,54 @@ GO
 CREATE SCHEMA [CurrentConditions]
 GO
 
+CREATE TABLE [CurrentConditions].[Localizations] (
+	LocalizationId BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	Name VARCHAR(30) NOT NULL,
+	UserId BIGINT NOT NULL,
+	IsEnabled BIT NOT NULL
+)
+
+INSERT INTO [CurrentConditions].[Localizations](
+	 UserId
+	,Name
+	,IsEnabled
+)
+VALUES(
+	 1
+	,'Testowa lokalizacja 1'
+	,1
+)
+,(
+	 1
+	,'Testowa lokalizacja 2'
+	,1
+)
+
+GO
+-- =============================================
+-- Author:		Paweł Gawarecki
+-- Create date: 24.04.2021
+-- Description:	Procedura pobiera listę lokalizacji użytkownika
+-- =============================================
+CREATE PROCEDURE [CurrentConditions].[LocalizationsGet]
+	@Login VARCHAR(50)
+AS
+BEGIN
+	SELECT
+		 l.LocalizationId
+		,l.Name
+	FROM
+		[CurrentConditions].[Localizations] l
+	JOIN [User].[Users] u
+	ON u.UserId = l.UserId
+	WHERE
+		u.Login = @Login OR u.Email = @Login
+END
+GO
+
 CREATE TABLE [CurrentConditions].[AgriculturalTechniques] (
 	AgriculturalTechniquesId BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	UserId BIGINT NOT NULL,
+	LocalizationId BIGINT NOT NULL,
 	AgriculturalDate DATE NOT NULL,
 	ActionId TINYINT NOT NULL,
 	Data1 VARCHAR(30),
@@ -68,7 +113,7 @@ CREATE TABLE [CurrentConditions].[AgriculturalTechniques] (
 )
 
 INSERT INTO [CurrentConditions].[AgriculturalTechniques] (
-	 UserId
+	 LocalizationId
 	,AgriculturalDate
 	,ActionId
 	,Data1
@@ -83,6 +128,13 @@ VALUES(
 )
 ,(
 	 1
+	,'06.20.2020'
+	,2
+	,'N'
+	,'12'
+)
+,(
+	 2
 	,'06.20.2020'
 	,2
 	,'N'
@@ -143,7 +195,7 @@ GO
 -- Description:	Procedura pobiera dane do tabeli Zabiegi Agroturystyczne
 -- =============================================
 CREATE PROCEDURE [CurrentConditions].[AgriculturalTechniquesGet]
-	@Login VARCHAR(50)
+	@LocalizationId BIGINT
 AS
 BEGIN
 	SELECT
@@ -155,10 +207,8 @@ BEGIN
 		[CurrentConditions].[AgriculturalTechniques] at
 	JOIN [CurrentConditions].[Actions] a
 	ON a.ActionId = at.ActionId
-	JOIN [User].[Users] u
-	ON u.UserId = at.UserId
 	WHERE
-		u.Login = @Login OR u.Email = @Login
+		at.LocalizationId = @LocalizationId
 END
 GO
 -- =============================================
@@ -167,25 +217,22 @@ GO
 -- Description:	Procedura dodaje dane do tabeli Zabiegi Agroturystyczne
 -- =============================================
 CREATE PROCEDURE [CurrentConditions].[AgriculturalTechniquesAdd]
-	 @Login VARCHAR(50)
+	 @LocalizationId BIGINT
 	,@AgriculturalDate DATE
 	,@ActionId TINYINT
 	,@Data1 VARCHAR(32)
 	,@Data2 VARCHAR(32)
 AS
 BEGIN
-	DECLARE @UserId BIGINT
-	SELECT @UserId = UserId FROM [User].[Users] WHERE Login = @Login OR Email = @Login
-
 	INSERT INTO [CurrentConditions].[AgriculturalTechniques](
-		 UserId
+		 LocalizationId
 		,AgriculturalDate
 		,ActionId
 		,Data1
 		,Data2
 	)
 	VALUES(
-		 @UserId
+		 @LocalizationId
 		,@AgriculturalDate
 		,@ActionId
 		,@Data1
@@ -250,7 +297,7 @@ GO
 
 CREATE TABLE [CurrentConditions].[CurrentConditions](
 	CurrentConditionId BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	UserId BIGINT NOT NULL,
+	LocalizationId BIGINT NOT NULL,
 	PlantTypeid TINYINT NOT NULL,
 	SowingDate DATE NOT NULL,
 	CultivationStateId TINYINT NOT NULL
@@ -258,7 +305,7 @@ CREATE TABLE [CurrentConditions].[CurrentConditions](
 GO
 
 INSERT INTO [CurrentConditions].[CurrentConditions] (
-	 UserId
+	 LocalizationId
 	,PlantTypeid
 	,SowingDate
 	,CultivationStateId
@@ -275,6 +322,12 @@ VALUES(
 	,'06.02.2020'
 	,2
 )
+,(
+	 2
+	,2
+	,'08.02.2020'
+	,2
+)
 GO
 -- =============================================
 -- Author:		Paweł Gawarecki
@@ -282,7 +335,7 @@ GO
 -- Description:	Procedura pobiera dane do tabeli Warunki bieżące
 -- =============================================
 CREATE PROCEDURE [CurrentConditions].[CurrentConditionsGet]
-	@Login VARCHAR(50)
+	@LocalizationId BIGINT
 AS
 BEGIN
 	SELECT 
@@ -295,10 +348,8 @@ BEGIN
 	ON pt.PlantTypeid = cc.PlantTypeid
 	JOIN [CurrentConditions].[CultivationStates] cs
 	ON cs.CultivationStateId = cc.CultivationStateId
-	JOIN [User].[Users] u
-	ON u.UserId = cc.UserId
 	WHERE
-		u.Login = @Login OR u.Email = @Login
+		cc.LocalizationId = @LocalizationId
 END
 GO
 -- =============================================
@@ -307,23 +358,20 @@ GO
 -- Description:	Procedura dodaje dane do tabeli Warunki bieżące
 -- =============================================
 CREATE PROCEDURE [CurrentConditions].[CurrentConditionsAdd]
-	 @Login VARCHAR(50)
+	 @LocalizationId BIGINT
 	,@PlantTypeId TINYINT
 	,@SowingDate DATE
 	,@CultivationStateId TINYINT
 AS
 BEGIN
-	DECLARE @UserId BIGINT
-	SELECT @UserId = UserId FROM [User].[Users] WHERE Login = @Login OR Email = @Login
-
 	INSERT INTO [CurrentConditions].[CurrentConditions] (
-	 UserId
+	 LocalizationId
 	,PlantTypeid
 	,SowingDate
 	,CultivationStateId
 )
 VALUES(
-	 @UserId
+	 @LocalizationId
 	,@PlantTypeid
 	,@SowingDate
 	,@CultivationStateId
@@ -333,7 +381,7 @@ GO
 
 CREATE TABLE [CurrentConditions].[Events](
 	EventId BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	UserId BIGINT NOT NULL,
+	LocalizationId BIGINT NOT NULL,
 	EventDate DATE NOT NULL,
 	EventTypeId TINYINT NOT NULL,
 	LossesPercentage TINYINT NOT NULL,
@@ -342,7 +390,7 @@ CREATE TABLE [CurrentConditions].[Events](
 GO
 
 INSERT INTO [CurrentConditions].[Events] (
-	 UserId
+	 LocalizationId
 	,EventDate
 	,EventTypeId
 	,LossesPercentage
@@ -361,6 +409,13 @@ VALUES(
 	,2
 	,50
 	,'C:\zdj2.jpg'
+)
+,(
+	 2
+	,'12-06-2021'
+	,2
+	,50
+	,'C:\zdj3.jpg'
 )
 GO
 CREATE TABLE [CurrentConditions].[EventTypes](
@@ -401,7 +456,7 @@ GO
 -- Description:	Procedura pobiera dane do tabeli Dziennik zdarzeń
 -- =============================================
 CREATE PROCEDURE [CurrentConditions].[EventsGet]
-	@Login VARCHAR(50)
+	@LocalizationId BIGINT
 AS
 BEGIN
 	SELECT 
@@ -413,10 +468,8 @@ BEGIN
 		[CurrentConditions].[Events] e
 	JOIN [CurrentConditions].[EventTypes] et
 	ON et.EventTypeId = e.EventTypeId
-	JOIN [User].[Users] u
-	ON u.UserId = e.UserId
 	WHERE
-		u.Login = @Login OR u.Email = @Login
+		e.LocalizationId = @LocalizationId
 END
 GO
 -- =============================================
@@ -425,25 +478,22 @@ GO
 -- Description:	Procedura dodaje dane do tabeli Dziennik zdarzeń
 -- =============================================
 CREATE PROCEDURE [CurrentConditions].[EventsAdd]
-	 @Login VARCHAR(50)
+	 @LocalizationId BIGINT
 	,@EventDate DATE
 	,@EventTypeId TINYINT
 	,@LossesPercentage TINYINT
 	,@PhotoPath VARCHAR(80) = NULL
 AS
 BEGIN
-	DECLARE @UserId BIGINT
-	SELECT @UserId = UserId FROM [User].[Users] WHERE Login = @Login OR Email = @Login
-
 	INSERT INTO [CurrentConditions].[Events] (
-		 UserId
+		 LocalizationId
 		,EventDate
 		,EventTypeId
 		,LossesPercentage
 		,PhotoPath
 	)
 	VALUES(
-		 @UserId
+		 @LocalizationId
 		,@EventDate
 		,@EventTypeId
 		,@LossesPercentage
