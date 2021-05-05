@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+h3 {
+  font-weight: bold;
+}
+
 .currentConditionsTabs td,
 .currentConditionsTabs th {
   padding: 5px;
@@ -37,7 +41,16 @@
 #agriculturalDateField,
 #actionIdField,
 #data1Field,
-#data2Field {
+#data2Field,
+#CurrentConditionsSbtBtn,
+#currentConditionsPlantTypeId,
+#currentConditionsSowingDate,
+#currentConditionsCultivationStateId,
+#EventsSbtBtn,
+#eventsEventDate,
+#eventsEventTypeId,
+#eventsLossesPercentage,
+#eventsPhotoPath {
   display: none;
 }
 
