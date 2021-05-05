@@ -4,8 +4,21 @@
 
 .currentConditionsTabs td,
 .currentConditionsTabs th {
+  padding: 5px;
+}
+
+.thField {
+  height: 48px;
   padding: 10px;
-  border: solid 1px black;
+  background: #f2f2f2;
+  border-radius: 10px;
+}
+
+.tdField {
+  height: 48px;
+  padding: 10px;
+  border: solid 2px #f2f2f2;
+  border-radius: 10px;
 }
 
 .tableSpace {
@@ -16,10 +29,21 @@
   margin: 10px;
 }
 
-/*
+.select {
+  background-color: #f2f2f2;
+}
+
 #AgriculturalTechniquesSbtBtn,
-#AgriculturalTechniquesAddForm,
-#CurrentConditionsSbtBtn {
+#agriculturalDateField,
+#actionIdField,
+#data1Field,
+#data2Field {
   display: none;
 }
-*/
+
+input,
+select {
+  width: 100%;
+  border: none;
+  border-bottom: solid 1px #016801;
+}

@@ -176,4 +176,22 @@ export class CurrentConditionsComponent implements OnInit {
     this.initEventsForm();
     }
   }
+
+  AgriculturalTechniquesShowAddStuff() {
+    document.getElementById("AgriculturalTechniquesAddBtn").style.display = "none";
+    document.getElementById("AgriculturalTechniquesSbtBtn").style.display = "block";
+    document.getElementById("agriculturalDateField").style.display =        "block";
+    document.getElementById("actionIdField").style.display =                "block";
+    document.getElementById("data1Field").style.display =                   "block";
+    document.getElementById("data2Field").style.display =                   "block";
+  }
+
+  AgriculturalTechniquesHideAddStuff(){
+    document.getElementById("AgriculturalTechniquesAddBtn").style.display = "block";
+    document.getElementById("AgriculturalTechniquesSbtBtn").style.display = "none";
+    document.getElementById("agriculturalDateField").style.display =        "none";
+    document.getElementById("actionIdField").style.display =                "none";
+    document.getElementById("data1Field").style.display =                   "none";
+    document.getElementById("data2Field").style.display =                   "none";
+  }
 }

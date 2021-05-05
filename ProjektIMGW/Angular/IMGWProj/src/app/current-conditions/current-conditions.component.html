@@ -17,9 +17,11 @@
             <div class="tableSpace">
                 <h2>Wybierz lokalizację:</h2>
                 <form [formGroup]="localizationsGroup">
-                    <select formControlName="localizationId" (change)="ChangeLocation()">
-                        <option *ngFor="let localization of localizationsList" [ngValue]="localization.LocalizationId">{{localization.Name}}</option>
-                    </select>
+                    <div class="thField" style="text-align: center;">
+                        <select class="select" formControlName="localizationId" (change)="ChangeLocation()">
+                            <option *ngFor="let localization of localizationsList" [ngValue]="localization.LocalizationId">{{localization.Name}}</option>
+                        </select>
+                    </div>
                 </form>
             </div>
         </div>
@@ -30,30 +32,47 @@
                     <input type="hidden" name="login" id="login" class="inputLogin" formControlName="localizationId">
                     <table class="currentConditionsTabs">
                         <tr>
-                            <th>Data</th>
-                            <th>Czynnosć</th>
-                            <th colspan="2">Dane</th>
+                            <th><div class="thField" style="width: 210px">Data</div></th>
+                            <th><div class="thField" style="width: 210px">Czynnosć</div></th>
+                            <th colspan="2"><div class="thField" style="width: 420px">Dane</div></th>
                         </tr>
                         <tr *ngFor="let value of agriculturalTechniquesTable">
-                            <td>{{ value.AgriculturalDate }}</td>
-                            <td>{{ value.Name }}</td>
-                            <td>{{ value.Data1 }}</td>
-                            <td>{{ value.Data2 }}</td>
+                            <td><div class="tdField">{{ value.AgriculturalDate }}</div></td>
+                            <td><div class="tdField">{{ value.Name }}</div></td>
+                            <td><div class="tdField" style="width: 205px">{{ value.Data1 }}</div></td>
+                            <td><div class="tdField" style="width: 205px">{{ value.Data2 }}</div></td>
                         </tr>
                         <tr id="AgriculturalTechniquesAddForm">
-                            <td><input type="date" name="agriculturalDate" id="agriculturalDate" formControlName="agriculturalDate"></td>
                             <td>
-                                <select formControlName="actionId">
-                                    <option *ngFor="let action of actionsList" [ngValue]="action.ActionId">{{action.Name}}</option>
-                                </select>
+                                <div class="tdField" id="agriculturalDateField">
+                                    <input type="date" name="agriculturalDate" id="agriculturalDate" formControlName="agriculturalDate">
+                                </div>
                             </td>
-                            <td><input type="text" name="data1" id="data1" formControlName="data1"></td>
-                            <td><input type="text" name="data2" id="data2" formControlName="data2"></td>
+                            <td>
+                                <div class="tdField" id="actionIdField">
+                                    <select formControlName="actionId">
+                                        <option *ngFor="let action of actionsList" [ngValue]="action.ActionId">{{action.Name}}</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="tdField" id="data1Field">
+                                    <input type="text" name="data1" id="data1" formControlName="data1">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="tdField" id="data2Field">
+                                    <input type="text" name="data2" id="data2" formControlName="data2">
+                                </div>
+                            </td>
                         </tr>
                     </table>
-                    <input class="buttons btn btn-outline-success" id="AgriculturalTechniquesSbtBtn" type="submit" value="Zapisz">
-                    <!-- <input class="buttons" id="AgriculturalTechniquesAddBtn" type="button" value="Dodaj" (click)="AgriculturalTechniquesShowAddStuff() ">
-                    <input class="buttons" id="AgriculturalTechniquesSbtBtn" type="submit" value="Zapisz" (click)="AgriculturalTechniquesHideAddStuff()">   -->
+                    <button class="btn btn-outline-success" id="AgriculturalTechniquesAddBtn" type="button" value="Dodaj" (click)="AgriculturalTechniquesShowAddStuff() ">
+                        Dodaj
+                    </button>
+                    <button class="btn btn-outline-success" id="AgriculturalTechniquesSbtBtn" type="submit" value="Zapisz" (click)="AgriculturalTechniquesHideAddStuff()">
+                        Zapisz
+                    </button>
                 </form>
             </div>
             <div class="tableSpace">
@@ -62,28 +81,34 @@
                     <input type="hidden" name="login" id="login" class="inputLogin" formControlName="localizationId">
                     <table class="currentConditionsTabs">
                         <tr>
-                            <th>Roślina</th>
-                            <th>Termin siewu</th>
-                            <th>Kondycja uprawy</th>
+                            <th><div class="thField" style="width: 210px">Roślina</div></th>
+                            <th><div class="thField" style="width: 210px">Termin siewu</div></th>
+                            <th><div class="thField" style="width: 210px">Kondycja uprawy</div></th>
                         </tr>
                         <tr *ngFor="let value of currentConditionsTable">
-                            <td>{{ value.PlantName }}</td>
-                            <td>{{ value.SowingDate }}</td>
-                            <td>{{ value.State }}</td>
+                            <td><div class="tdField">{{ value.PlantName }}</div></td>
+                            <td><div class="tdField">{{ value.SowingDate }}</div></td>
+                            <td><div class="tdField">{{ value.State }}</div></td>
                         </tr>
                         <tr id="CurrentConditionsAddForm">
                             <td>
-                                <select formControlName="plantTypeId">
-                                    <option *ngFor="let plant of plantsList" [ngValue]="plant.PlantTypeId">{{plant.Name}}</option>
-                                </select>
+                                <div class="tdField">
+                                    <select formControlName="plantTypeId">
+                                        <option *ngFor="let plant of plantsList" [ngValue]="plant.PlantTypeId">{{plant.Name}}</option>
+                                    </select>
+                                </div>
                             </td>
                             <td>
-                                <input type="date" formControlName="sowingDate">
+                                <div class="tdField">
+                                    <input type="date" formControlName="sowingDate">
+                                </div>
                             </td>
                             <td>
-                                <select formControlName="cultivationStateId">
-                                    <option *ngFor="let state of statesList" [ngValue]="state.CultivationStateId">{{state.Name}}</option>
-                                </select>
+                                <div class="tdField">
+                                    <select formControlName="cultivationStateId">
+                                        <option *ngFor="let state of statesList" [ngValue]="state.CultivationStateId">{{state.Name}}</option>
+                                    </select>
+                                </div>
                             </td>
                         </tr>
                     </table>
@@ -97,31 +122,39 @@
                     <input type="hidden" name="login" id="login" class="inputLogin" formControlName="localizationId">
                     <table class="currentConditionsTabs">
                     <tr>
-                        <th>Data</th>
-                        <th>Zdarzenie</th>
-                        <th>Strata</th>
-                        <th>Obraz</th>
+                        <th><div class="thField">Data</div></th>
+                        <th><div class="thField">Zdarzenie</div></th>
+                        <th><div class="thField">Strata</div></th>
+                        <th><div class="thField">Obraz</div></th>
                     </tr>
                     <tr *ngFor="let value of eventsTable">
-                        <td>{{ value.EventDate }}</td>
-                        <td>{{ value.EventName }}</td>
-                        <td>{{ value.LossesPercentage }}</td>
-                        <td>{{ value.PhotoPath }}</td>
+                        <td><div class="tdField">{{ value.EventDate }}</div></td>
+                        <td><div class="tdField">{{ value.EventName }}</div></td>
+                        <td><div class="tdField">{{ value.LossesPercentage }}</div></td>
+                        <td><div class="tdField">{{ value.PhotoPath }}</div></td>
                     </tr>
                     <tr id="EventsAddForm">
                         <td>
-                            <input type="date" formControlName="eventDate">
+                            <div class="tdField">
+                                <input type="date" formControlName="eventDate">
+                            </div>
                         </td>
                         <td>
-                            <select formControlName="eventTypeId">
-                                <option *ngFor="let event of eventsList" [ngValue]="event.EventTypeId">{{event.Name}}</option>
-                            </select>
+                            <div class="tdField">
+                                <select formControlName="eventTypeId">
+                                    <option *ngFor="let event of eventsList" [ngValue]="event.EventTypeId">{{event.Name}}</option>
+                                </select>
+                            </div>
                         </td>
                         <td>
-                            <input type="number" formControlName="lossesPercentage">
+                            <div class="tdField">
+                                <input type="number" formControlName="lossesPercentage">
+                            </div>
                         </td>
                         <td>
-                            <input type="text" formControlName="photoPath">
+                            <div class="tdField">
+                                <input type="text" formControlName="photoPath">
+                            </div>
                         </td>
                     </tr>
                     </table>
