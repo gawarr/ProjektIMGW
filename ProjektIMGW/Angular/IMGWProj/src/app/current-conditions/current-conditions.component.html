@@ -13,20 +13,20 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="tableSpace">
                 <h2>Wybierz lokalizację:</h2>
-                <form [formGroup]="LocalizationsGroup">
+                <form [formGroup]="localizationsGroup">
                     <select formControlName="localizationId" (change)="ChangeLocation()">
                         <option *ngFor="let localization of localizationsList" [ngValue]="localization.LocalizationId">{{localization.Name}}</option>
                     </select>
                 </form>
             </div>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-6">
             <div class="tableSpace">
                 <h2>Zabiegi Agroturystyczne</h2>
-                <form [formGroup]="AgriculturalTechniquesGroup" (ngSubmit)="AgriculturalTechniquesAdd()">
+                <form [formGroup]="agriculturalTechniquesGroup" (ngSubmit)="AgriculturalTechniquesAdd()">
                     <input type="hidden" name="login" id="login" class="inputLogin" formControlName="localizationId">
                     <table class="currentConditionsTabs">
                         <tr>
@@ -34,7 +34,7 @@
                             <th>Czynnosć</th>
                             <th colspan="2">Dane</th>
                         </tr>
-                        <tr *ngFor="let value of conditionsTable">
+                        <tr *ngFor="let value of agriculturalTechniquesTable">
                             <td>{{ value.AgriculturalDate }}</td>
                             <td>{{ value.Name }}</td>
                             <td>{{ value.Data1 }}</td>
@@ -58,7 +58,7 @@
             </div>
             <div class="tableSpace">
                 <h2>Warunki bierzące</h2>
-                <form [formGroup]="CurrentConditionsGroup" (ngSubmit)="CurrentConditionsAdd()">
+                <form [formGroup]="currentConditionsGroup" (ngSubmit)="CurrentConditionsAdd()">
                     <input type="hidden" name="login" id="login" class="inputLogin" formControlName="localizationId">
                     <table class="currentConditionsTabs">
                         <tr>
@@ -93,7 +93,7 @@
             </div>
             <div class="tableSpace">
                 <h2>Dziennik zdarzeń</h2>
-                <form [formGroup]="EventsGroup" (ngSubmit)="EventsAdd()">
+                <form [formGroup]="eventsGroup" (ngSubmit)="EventsAdd()">
                     <input type="hidden" name="login" id="login" class="inputLogin" formControlName="localizationId">
                     <table class="currentConditionsTabs">
                     <tr>

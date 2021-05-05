@@ -13,26 +13,25 @@ import { ThrowStmt } from '@angular/compiler';
   templateUrl: './current-conditions.component.html',
   styleUrls: ['./current-conditions.component.css']
 })
+
 export class CurrentConditionsComponent implements OnInit {
-
-  conditionsTable: Object;
-  currentConditionsTable: Object;
-  eventsTable: Object;
-
   jsonLogin: Object;
   jsonLocalization: Object;
 
-  LocalizationsGroup: FormGroup;
+  localizationsGroup: FormGroup;
   localizationsList: Object;
 
-  AgriculturalTechniquesGroup: FormGroup;
+  agriculturalTechniquesTable: Object;
+  agriculturalTechniquesGroup: FormGroup;
   actionsList: Object;
 
-  CurrentConditionsGroup: FormGroup;
+  currentConditionsTable: Object;
+  currentConditionsGroup: FormGroup;
   plantsList: Object;
   statesList: Object;
 
-  EventsGroup: FormGroup;
+  eventsTable: Object;
+  eventsGroup: FormGroup;
   eventsList: Object;
 
   constructor(private _dataService: DataService, public _authService: AuthService, private _router: Router) { }
@@ -43,60 +42,20 @@ export class CurrentConditionsComponent implements OnInit {
     this.jsonLogin = { "login": this._authService.login }
 
     this.LocalizationsGet();
-    this.LocalizationsGroup = new FormGroup({
-      localizationId:  new FormControl(1, [Validators.required])
-    });
-    this.jsonLocalization = { "localizationId": this.LocalizationsGroup.controls.localizationId.value };
-
-    this.AgriculturalTechniquesGet();
-    this.CurrentConditionsGet();
-    this.EventsGet();
 
     this.initForms();
   }
 
   LocalizationsGet() {
     this._dataService.LocatizationsGet(this.jsonLogin).subscribe(
-      data => 
-      {
-        this.localizationsList = data;
-      }
+      data => this.localizationsList = data
     );
-  }
+
+    this.localizationsGroup = new FormGroup({
+      localizationId:  new FormControl('', [Validators.required])
+    });
   
-  ChangeLocation() {
-    this.jsonLocalization = { "localizationId": this.LocalizationsGroup.controls.localizationId.value };
-    this.AgriculturalTechniquesGet();
-    this.CurrentConditionsGet();
-    this.EventsGet();
-    this.initForms();
-  }
-
-  AgriculturalTechniquesGet() {
-    this._dataService.AgriculturalTechniquesGet(this.jsonLocalization).subscribe(
-      data =>
-      {
-        this.conditionsTable = data;
-      }
-    );
-  }
-
-  CurrentConditionsGet() {
-    this._dataService.CurrentConditionsGet(this.jsonLocalization).subscribe(
-      data =>
-      {
-        this.currentConditionsTable = data;
-      }
-    );
-  }
-
-  EventsGet() {
-    this._dataService.EventsGet(this.jsonLocalization).subscribe(
-      data =>
-      {
-        this.eventsTable = data;
-      }
-    );
+    this.jsonLocalization = { "localizationId": this.localizationsGroup.controls.localizationId.value };
   }
 
   initForms() {
@@ -106,8 +65,8 @@ export class CurrentConditionsComponent implements OnInit {
   }
 
   initAgriculturalTechniquesForm() {
-    this.AgriculturalTechniquesGroup = new FormGroup({
-      localizationId:  new FormControl(this.LocalizationsGroup.controls.localizationId.value, [Validators.required]),
+    this.agriculturalTechniquesGroup = new FormGroup({
+      localizationId:  new FormControl(this.localizationsGroup.controls.localizationId.value, [Validators.required]),
       agriculturalDate: new FormControl('', [Validators.required]),
       actionId: new FormControl('', [Validators.required]),
       data1: new FormControl('', [Validators.required]),
@@ -116,9 +75,15 @@ export class CurrentConditionsComponent implements OnInit {
     this.ActionsListGet();
   }
 
+  ActionsListGet() {
+    this._dataService.ActionsListGet().subscribe(
+      data => this.actionsList = data
+    );
+  }
+
   initCurrentConditionsForm() {
-    this.CurrentConditionsGroup = new FormGroup({
-      localizationId:  new FormControl(this.LocalizationsGroup.controls.localizationId.value, [Validators.required]),
+    this.currentConditionsGroup = new FormGroup({
+      localizationId:  new FormControl(this.localizationsGroup.controls.localizationId.value, [Validators.required]),
       plantTypeId: new FormControl('', [Validators.required]),
       sowingDate: new FormControl('', [Validators.required]),
       cultivationStateId: new FormControl('', [Validators.required])
@@ -127,9 +92,21 @@ export class CurrentConditionsComponent implements OnInit {
     this.CultivationStatesListGet();
   }
 
+  PlantTypesListGet() {
+    this._dataService.PlantTypesListGet().subscribe(
+      data => this.plantsList = data
+    );
+  }
+
+  CultivationStatesListGet() {
+    this._dataService.CultivationStatesListGet().subscribe(
+      data => this.statesList = data
+    );
+  }
+
   initEventsForm() {
-    this.EventsGroup = new FormGroup({
-      localizationId:  new FormControl(this.LocalizationsGroup.controls.localizationId.value, [Validators.required]),
+    this.eventsGroup = new FormGroup({
+      localizationId:  new FormControl(this.localizationsGroup.controls.localizationId.value, [Validators.required]),
       eventDate: new FormControl('', [Validators.required]),
       eventTypeId: new FormControl('', [Validators.required]),
       lossesPercentage: new FormControl('', [Validators.required]),
@@ -138,9 +115,41 @@ export class CurrentConditionsComponent implements OnInit {
     this.EventTypesListGet();
   }
 
+  EventTypesListGet() {
+    this._dataService.EventsListGet().subscribe(
+      data => this.eventsList = data
+    );
+  }
+  
+  ChangeLocation() {
+    this.jsonLocalization = { "localizationId": this.localizationsGroup.controls.localizationId.value };
+    this.AgriculturalTechniquesGet();
+    this.CurrentConditionsGet();
+    this.EventsGet();
+    this.initForms();
+  }
+
+  AgriculturalTechniquesGet() {
+    this._dataService.AgriculturalTechniquesGet(this.jsonLocalization).subscribe(
+      data => this.agriculturalTechniquesTable = data
+    );
+  }
+
+  CurrentConditionsGet() {
+    this._dataService.CurrentConditionsGet(this.jsonLocalization).subscribe(
+      data => this.currentConditionsTable = data
+    );
+  }
+
+  EventsGet() {
+    this._dataService.EventsGet(this.jsonLocalization).subscribe(
+      data => this.eventsTable = data
+    );
+  }
+
   AgriculturalTechniquesAdd() {
-    if (this.AgriculturalTechniquesGroup.valid) {
-      this._dataService.AgriculturalTechniquesAdd(this.AgriculturalTechniquesGroup.value).subscribe(
+    if (this.agriculturalTechniquesGroup.valid) {
+      this._dataService.AgriculturalTechniquesAdd(this.agriculturalTechniquesGroup.value).subscribe(
         data => {}
       );
     this.AgriculturalTechniquesGet();
@@ -149,8 +158,8 @@ export class CurrentConditionsComponent implements OnInit {
   }
 
   CurrentConditionsAdd() {
-    if (this.CurrentConditionsGroup.valid) {
-      this._dataService.CurrentConditionsAdd(this.CurrentConditionsGroup.value).subscribe(
+    if (this.currentConditionsGroup.valid) {
+      this._dataService.CurrentConditionsAdd(this.currentConditionsGroup.value).subscribe(
         data => {}
       );
     this.CurrentConditionsGet();
@@ -158,49 +167,13 @@ export class CurrentConditionsComponent implements OnInit {
     }
   }
 
-  ActionsListGet() {
-    this._dataService.ActionsListGet().subscribe(
-      data =>
-      {
-        this.actionsList = data;
-      }
-    );
-  }
-
-  PlantTypesListGet() {
-    this._dataService.PlantTypesListGet().subscribe(
-      data =>
-      {
-        this.plantsList = data;
-      }
-    );
-  }
-
-  CultivationStatesListGet() {
-    this._dataService.CultivationStatesListGet().subscribe(
-      data =>
-      {
-        this.statesList = data;
-      }
-    );
-  }
-
   EventsAdd() {
-    if (this.EventsGroup.valid) {
-      this._dataService.EventsAdd(this.EventsGroup.value).subscribe(
+    if (this.eventsGroup.valid) {
+      this._dataService.EventsAdd(this.eventsGroup.value).subscribe(
         data => {}
       );
     this.EventsGet();
     this.initEventsForm();
     }
-  }
-
-  EventTypesListGet() {
-    this._dataService.EventsListGet().subscribe(
-      data =>
-      {
-        this.eventsList = data;
-      }
-    );
   }
 }
