@@ -173,10 +173,16 @@ export class CurrentConditionsComponent implements OnInit {
       this._dataService.CurrentConditionsAdd(this.currentConditionsGroup.value).subscribe(
         data => {}
       );
-    this.CurrentConditionsHideAddStuff();
-    this.CurrentConditionsGet();
-    this.initCurrentConditionsForm();
+      this.CurrentConditionsHideAddStuff();
+      this.CurrentConditionsGet();
+      this.initCurrentConditionsForm();
     }
+  }
+
+  CurrentConditionsEdit(){
+    alert("edytowane");
+    this.CurrentConditionsGet();
+    this.CurrentConditionsHideEditStuff();
   }
 
   EventsAdd() {
@@ -184,7 +190,6 @@ export class CurrentConditionsComponent implements OnInit {
       this._dataService.EventsAdd(this.eventsGroup.value).subscribe(
         data => {}
       );
-
     this.EventsSbtBtn();
     this.EventsGet();
     this.initEventsForm();
@@ -211,7 +216,8 @@ export class CurrentConditionsComponent implements OnInit {
 
   CurrentConditionsShowAddStuff() {
     document.getElementById("CurrentConditionsAddBtn").style.display =             "none";
-    document.getElementById("CurrentConditionsSbtBtn").style.display =              "block";
+    document.getElementById("CurrentConditionsEditBtn").style.display =            "none";
+    document.getElementById("CurrentConditionsSbtBtn").style.display =             "block";
     document.getElementById("currentConditionsPlantTypeId").style.display =        "block";
     document.getElementById("currentConditionsSowingDate").style.display =         "block";
     document.getElementById("currentConditionsCultivationStateId").style.display = "block";
@@ -219,27 +225,40 @@ export class CurrentConditionsComponent implements OnInit {
 
   CurrentConditionsHideAddStuff(){
     document.getElementById("CurrentConditionsAddBtn").style.display =             "block";
-    document.getElementById("CurrentConditionsSbtBtn").style.display =              "none";
+    document.getElementById("CurrentConditionsEditBtn").style.display =            "block";
+    document.getElementById("CurrentConditionsSbtBtn").style.display =             "none";
     document.getElementById("currentConditionsPlantTypeId").style.display =        "none";
     document.getElementById("currentConditionsSowingDate").style.display =         "none";
     document.getElementById("currentConditionsCultivationStateId").style.display = "none";
   }
 
+  CurrentConditionsShowEditStuff(){
+    document.getElementById("CurrentConditionsAddBtn").style.display =        "none";
+    document.getElementById("CurrentConditionsEditBtn").style.display =       "none";
+    document.getElementById("CurrentConditionsSbtEditionBtn").style.display = "block";
+  }
+
+  CurrentConditionsHideEditStuff(){
+    document.getElementById("CurrentConditionsAddBtn").style.display =        "block";
+    document.getElementById("CurrentConditionsEditBtn").style.display =       "block";
+    document.getElementById("CurrentConditionsSbtEditionBtn").style.display = "none";
+  }
+
   EventsAddBtn() {
-    document.getElementById("EventsAddBtn").style.display =             "none";
-    document.getElementById("EventsSbtBtn").style.display =              "block";
+    document.getElementById("EventsAddBtn").style.display =           "none";
+    document.getElementById("EventsSbtBtn").style.display =           "block";
     document.getElementById("eventsEventDate").style.display =        "block";
-    document.getElementById("eventsEventTypeId").style.display =         "block";
+    document.getElementById("eventsEventTypeId").style.display =      "block";
     document.getElementById("eventsLossesPercentage").style.display = "block";
-    document.getElementById("eventsPhotoPath").style.display = "block";
+    document.getElementById("eventsPhotoPath").style.display =        "block";
   }
 
   EventsSbtBtn(){
-    document.getElementById("EventsAddBtn").style.display =             "block";
-    document.getElementById("EventsSbtBtn").style.display =              "none";
+    document.getElementById("EventsAddBtn").style.display =           "block";
+    document.getElementById("EventsSbtBtn").style.display =           "none";
     document.getElementById("eventsEventDate").style.display =        "none";
-    document.getElementById("eventsEventTypeId").style.display =         "none";
+    document.getElementById("eventsEventTypeId").style.display =      "none";
     document.getElementById("eventsLossesPercentage").style.display = "none";
-    document.getElementById("eventsPhotoPath").style.display = "none";
+    document.getElementById("eventsPhotoPath").style.display =        "none";
   }
 }

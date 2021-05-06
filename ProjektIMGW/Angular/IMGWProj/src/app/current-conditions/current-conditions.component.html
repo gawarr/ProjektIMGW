@@ -83,12 +83,16 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-outline-success buttons" id="AgriculturalTechniquesAddBtn" type="button" value="Dodaj" (click)="AgriculturalTechniquesShowAddStuff() ">
-                        <img src="./../../assets/img/plus.png" alt="+"> Dodaj
-                    </button>
-                    <button class="btn btn-outline-success buttons" id="AgriculturalTechniquesSbtBtn" type="submit" value="Zapisz">
-                        Zapisz
-                    </button>
+                    <div class="row">
+                        <div class="col-2">
+                            <button class="btn btn-outline-success buttons" id="AgriculturalTechniquesAddBtn"       type="button" value="Dodaj" (click)="AgriculturalTechniquesShowAddStuff() ">
+                                <img src="./../../assets/img/plus.png" alt="+"> Dodaj
+                            </button>
+                            <button class="btn btn-outline-success buttons" id="AgriculturalTechniquesSbtBtn"       type="submit" value="Zapisz">
+                                Zapisz
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="tableSpace">
@@ -116,7 +120,14 @@
                                     <div class="tdField">{{ value.SowingDate }}</div>
                                 </div>
                                 <div class="col td">
-                                    <div class="tdField">{{ value.State }}</div>
+                                    <div class="tdField" id="tdState">
+                                        {{ value.State }}
+                                    </div>
+                                    <div class="tdField" id="tdEditState">
+                                        <select>
+                                            <option *ngFor="let state of statesList" [ngValue]="state.CultivationStateId">{{state.Name}}</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -142,12 +153,26 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-outline-success buttons" id="CurrentConditionsAddBtn" type="button" value="Dodaj" (click)="CurrentConditionsShowAddStuff() ">
-                        <img src="./../../assets/img/plus.png" alt="+"> Dodaj
-                    </button>
-                    <button class="btn btn-outline-success buttons" id="CurrentConditionsSbtBtn" type="submit" value="Zapisz">
-                        Zapisz
-                    </button>
+                    <div class="row">
+                        <div class="col-2">
+                            <button class="btn btn-outline-success buttons" id="CurrentConditionsAddBtn"    type="button"
+                            (click)="CurrentConditionsShowAddStuff() ">
+                                <img src="./../../assets/img/plus.png" alt="+"> Dodaj
+                            </button>
+                            <button class="btn btn-outline-success buttons" id="CurrentConditionsSbtBtn" type="submit">
+                                Zapisz
+                            </button>
+                            <button class="btn btn-outline-success buttons" id="CurrentConditionsSbtEditionBtn" type="button" (click)="CurrentConditionsEdit() ">
+                                Zapisz
+                            </button>
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-outline-success buttons" id="CurrentConditionsEditBtn" type="button"
+                                (click)="CurrentConditionsShowEditStuff() ">
+                                Edytuj
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="tableSpace">
@@ -155,68 +180,72 @@
                 <form [formGroup]="eventsGroup" (ngSubmit)="EventsAdd()">
                     <input type="hidden" name="login" id="login" class="inputLogin" formControlName="localizationId">
                     <div class="container currentConditionsTabs">
-                    <div class="row">
-                        <div class="col-3 th">
-                            <div class="thField">Data</div>
+                        <div class="row">
+                            <div class="col-3 th">
+                                <div class="thField">Data</div>
+                            </div>
+                            <div class="col-3 th">
+                                <div class="thField">Zdarzenie</div>
+                            </div>
+                            <div class="col-2 th">
+                                <div class="thField">Strata</div>
+                            </div>
+                            <div class="col-4 th">
+                                <div class="thField">Obraz</div>
+                            </div>
                         </div>
-                        <div class="col-3 th">
-                            <div class="thField">Zdarzenie</div>
+                        <div class="displayDiv">
+                            <div class="row" *ngFor="let value of eventsTable">
+                                <div class="col-3 td">
+                                    <div class="tdField">{{ value.EventDate }}</div>
+                                </div>
+                                <div class="col-3 td">
+                                    <div class="tdField">{{ value.EventName }}</div>
+                                </div>
+                                <div class="col-2 td">
+                                    <div class="tdField">{{ value.LossesPercentage }}</div>
+                                </div>
+                                <div class="col-4 td">
+                                    <div class="tdField">{{ value.PhotoPath }}</div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-2 th">
-                            <div class="thField">Strata</div>
-                        </div>
-                        <div class="col-4 th">
-                            <div class="thField">Obraz</div>
-                        </div>
-                    </div>
-                    <div class="displayDiv">
-                        <div class="row" *ngFor="let value of eventsTable">
+                        <div class="row" style="margin-top: 2%;" id="EventsAddForm">
                             <div class="col-3 td">
-                                <div class="tdField">{{ value.EventDate }}</div>
+                                <div class="tdField" id="eventsEventDate">
+                                    <input type="date" formControlName="eventDate">
+                                </div>
                             </div>
                             <div class="col-3 td">
-                                <div class="tdField">{{ value.EventName }}</div>
+                                <div class="tdField" id="eventsEventTypeId">
+                                    <select formControlName="eventTypeId">
+                                        <option *ngFor="let event of eventsList" [ngValue]="event.EventTypeId">{{event.Name}}</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-2 td">
-                                <div class="tdField">{{ value.LossesPercentage }}</div>
+                                <div class="tdField" id="eventsLossesPercentage">
+                                    <input type="number" formControlName="lossesPercentage">
+                                </div>
                             </div>
                             <div class="col-4 td">
-                                <div class="tdField">{{ value.PhotoPath }}</div>
+                                <div class="tdField" id="eventsPhotoPath">
+                                    <input type="text" formControlName="photoPath">
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="margin-top: 2%;" id="EventsAddForm">
-                        <div class="col-3 td">
-                            <div class="tdField" id="eventsEventDate">
-                                <input type="date" formControlName="eventDate">
-                            </div>
-                        </div>
-                        <div class="col-3 td">
-                            <div class="tdField" id="eventsEventTypeId">
-                                <select formControlName="eventTypeId">
-                                    <option *ngFor="let event of eventsList" [ngValue]="event.EventTypeId">{{event.Name}}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-2 td">
-                            <div class="tdField" id="eventsLossesPercentage">
-                                <input type="number" formControlName="lossesPercentage">
-                            </div>
-                        </div>
-                        <div class="col-4 td">
-                            <div class="tdField" id="eventsPhotoPath">
-                                <input type="text" formControlName="photoPath">
-                            </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <button class="btn btn-outline-success buttons" id="EventsAddBtn" type="button" value="Dodaj"
+                                (click)="EventsAddBtn() ">
+                                <img src="./../../assets/img/plus.png" alt="+"> Dodaj
+                            </button>
+                            <button class="btn btn-outline-success buttonsf" id="EventsSbtBtn" type="submit" value="Zapisz">
+                                Zapisz
+                            </button>
                         </div>
                     </div>
-                    </div>
-                    <button class="btn btn-outline-success buttons" id="EventsAddBtn" type="button" value="Dodaj"
-                        (click)="EventsAddBtn() ">
-                        <img src="./../../assets/img/plus.png" alt="+"> Dodaj
-                    </button>
-                    <button class="btn btn-outline-success buttonsf" id="EventsSbtBtn" type="submit" value="Zapisz">
-                        Zapisz
-                    </button>
                 </form>
             </div>
         </div>

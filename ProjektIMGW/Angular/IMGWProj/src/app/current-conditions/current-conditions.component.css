@@ -38,6 +38,10 @@ h3 {
   border-radius: 10px;
 }
 
+#tdEditState {
+  display: none;
+}
+
 .tableSpace {
   margin: 3%;
   margin-bottom: 5%;
@@ -58,6 +62,7 @@ h3 {
 #data1Field,
 #data2Field,
 #CurrentConditionsSbtBtn,
+#CurrentConditionsSbtEditionBtn,
 #currentConditionsPlantTypeId,
 #currentConditionsSowingDate,
 #currentConditionsCultivationStateId,
