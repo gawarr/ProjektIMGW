@@ -61,28 +61,33 @@ GO
 CREATE TABLE [CurrentConditions].[Localizations] (
 	LocalizationId BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	Name VARCHAR(30) NOT NULL,
-	UserId BIGINT NOT NULL,
+	Coordinates VARCHAR(50) NOT NULL,
+	UserId BIGINT NOT NULL FOREIGN KEY REFERENCES [User].[Users](UserId),
 	IsEnabled BIT NOT NULL
 )
 
 INSERT INTO [CurrentConditions].[Localizations](
 	 UserId
 	,Name
+	,Coordinates
 	,IsEnabled
 )
 VALUES(
 	 1
 	,'Testowa lokalizacja 1'
+	,'[0.0,0.0],[40.0,0.0],[30.0,40.0],'
 	,1
 )
 ,(
 	 1
 	,'Testowa lokalizacja 2'
+	,'[0.0,0.0],[-40.0,0.0],[-30.0,-40.0],'
 	,1
 )
 ,(
 	 2
 	,'Lokalizacja 1 Jana'
+	,'[0.0,0.0],[40.0,0.0],[-30.0,40.0],'
 	,1
 )
 
@@ -108,11 +113,42 @@ BEGIN
 END
 GO
 
+CREATE TABLE [CurrentConditions].[Actions](
+	ActionId TINYINT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	Name VARCHAR(30) NOT NULL,
+	IsEnabled BIT NOT NULL
+)
+
+INSERT INTO [CurrentConditions].[Actions] (
+	 Name
+	,IsEnabled
+)
+VALUES(
+	 'Nawoz (organiczny)'
+	,1
+)
+,(
+	 'Nawoz (mineralny)'
+	,1
+)
+,(
+	 'Nawodnienie'
+	,1
+)
+,(
+	 'Siew'
+	,1
+)
+,(
+	 'Zbior'
+	,1
+)
+GO
 CREATE TABLE [CurrentConditions].[AgriculturalTechniques] (
 	AgriculturalTechniquesId BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	LocalizationId BIGINT NOT NULL,
+	LocalizationId BIGINT NOT NULL FOREIGN KEY REFERENCES [CurrentConditions].[Localizations](LocalizationId),
 	AgriculturalDate DATE NOT NULL,
-	ActionId TINYINT NOT NULL,
+	ActionId TINYINT NOT NULL FOREIGN KEY REFERENCES [CurrentConditions].[Actions](ActionId),
 	Data1 VARCHAR(30),
 	Data2 VARCHAR(30)
 )
@@ -144,37 +180,6 @@ VALUES(
 	,2
 	,'N'
 	,'12'
-)
-
-CREATE TABLE [CurrentConditions].[Actions](
-	ActionId TINYINT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	Name VARCHAR(30) NOT NULL,
-	IsEnabled BIT NOT NULL
-)
-
-INSERT INTO [CurrentConditions].[Actions] (
-	 Name
-	,IsEnabled
-)
-VALUES(
-	 'Nawoz (organiczny)'
-	,1
-)
-,(
-	 'Nawoz (mineralny)'
-	,1
-)
-,(
-	 'Nawodnienie'
-	,1
-)
-,(
-	 'Siew'
-	,1
-)
-,(
-	 'Zbior'
-	,1
 )
 
 GO
@@ -302,10 +307,10 @@ GO
 
 CREATE TABLE [CurrentConditions].[CurrentConditions](
 	CurrentConditionId BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	LocalizationId BIGINT NOT NULL,
-	PlantTypeid TINYINT NOT NULL,
+	LocalizationId BIGINT NOT NULL FOREIGN KEY REFERENCES [CurrentConditions].[Localizations](LocalizationId),
+	PlantTypeid TINYINT NOT NULL FOREIGN KEY REFERENCES [CurrentConditions].[PlantTypes](PlantTypeid),
 	SowingDate DATE NOT NULL,
-	CultivationStateId TINYINT NOT NULL
+	CultivationStateId TINYINT NOT NULL FOREIGN KEY REFERENCES [CurrentConditions].[CultivationStates](CultivationStateId)
 )
 GO
 
@@ -383,12 +388,43 @@ VALUES(
 )
 END
 GO
+CREATE TABLE [CurrentConditions].[EventTypes](
+	EventTypeId TINYINT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	Name VARCHAR(15) NOT NULL,
+	IsEnabled BIT NOT NULL
+)
+GO
 
+INSERT INTO [CurrentConditions].[EventTypes] (
+	 Name
+	,IsEnabled
+)
+VALUES(
+	 'Ulewa'
+	,1
+)
+,(
+	 'Deszcz'
+	,1
+)
+,(
+	 'Susza'
+	,1
+)
+,(
+	 'Przymrozek'
+	,1
+)
+,(
+	 'Agrofagi'
+	,1
+)
+Go
 CREATE TABLE [CurrentConditions].[Events](
 	EventId BIGINT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	LocalizationId BIGINT NOT NULL,
+	LocalizationId BIGINT NOT NULL FOREIGN KEY REFERENCES [CurrentConditions].[Localizations](LocalizationId),
 	EventDate DATE NOT NULL,
-	EventTypeId TINYINT NOT NULL,
+	EventTypeId TINYINT NOT NULL FOREIGN KEY REFERENCES [CurrentConditions].[EventTypes](EventTypeId),
 	LossesPercentage TINYINT NOT NULL,
 	PhotoPath VARCHAR(80)
 )
@@ -421,38 +457,6 @@ VALUES(
 	,2
 	,50
 	,'C:\zdj3.jpg'
-)
-GO
-CREATE TABLE [CurrentConditions].[EventTypes](
-	EventTypeId TINYINT NOT NULL PRIMARY KEY IDENTITY(1,1),
-	Name VARCHAR(15) NOT NULL,
-	IsEnabled BIT NOT NULL
-)
-GO
-
-INSERT INTO [CurrentConditions].[EventTypes] (
-	 Name
-	,IsEnabled
-)
-VALUES(
-	 'Ulewa'
-	,1
-)
-,(
-	 'Deszcz'
-	,1
-)
-,(
-	 'Susza'
-	,1
-)
-,(
-	 'Przymrozek'
-	,1
-)
-,(
-	 'Agrofagi'
-	,1
 )
 GO
 -- =============================================
