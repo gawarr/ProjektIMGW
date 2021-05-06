@@ -48,13 +48,23 @@ export class CurrentConditionsComponent implements OnInit {
 
   LocalizationsGet() {
     this._dataService.LocatizationsGet(this.jsonLogin).subscribe(
-      data => this.localizationsList = data
+      data => 
+      {
+        this.localizationsList = data
+
+        if(this.localizationsList.toString().length !== 0){
+          this.localizationsGroup = new FormGroup({
+            localizationId:  new FormControl(this.localizationsList[0]["LocalizationId"], [Validators.required])
+          });
+
+          this.ChangeLocation();
+        }
+      }
     );
 
     this.localizationsGroup = new FormGroup({
       localizationId:  new FormControl('', [Validators.required])
     });
-  
     this.jsonLocalization = { "localizationId": this.localizationsGroup.controls.localizationId.value };
   }
 

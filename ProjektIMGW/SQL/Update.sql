@@ -27,7 +27,7 @@ VALUES (
 ,(
      'jan'
 	,'jan@gamil.com'
-	,CONVERT(VARCHAR(32), HashBytes('MD5', 'haslo'), 2)
+	,CONVERT(VARCHAR(32), HashBytes('MD5', 'admin'), 2)
 	,NULL
 	,1
 )
@@ -78,6 +78,11 @@ VALUES(
 ,(
 	 1
 	,'Testowa lokalizacja 2'
+	,1
+)
+,(
+	 2
+	,'Lokalizacja 1 Jana'
 	,1
 )
 
