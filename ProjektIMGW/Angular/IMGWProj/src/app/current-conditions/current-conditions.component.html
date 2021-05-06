@@ -25,52 +25,69 @@
                 </form>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-9">
             <div class="tableSpace">
                 <h3>Zabiegi Agroturystyczne</h3>
                 <form [formGroup]="agriculturalTechniquesGroup" (ngSubmit)="AgriculturalTechniquesAdd()">
                     <input type="hidden" name="login" id="login" class="inputLogin" formControlName="localizationId">
-                    <table class="currentConditionsTabs">
-                        <tr>
-                            <th><div class="thField" style="width: 215px">Data</div></th>
-                            <th><div class="thField" style="width: 215px">Czynnosć</div></th>
-                            <th colspan="2"><div class="thField" style="width: 420px">Dane</div></th>
-                        </tr>
-                        <tr *ngFor="let value of agriculturalTechniquesTable">
-                            <td><div class="tdField">{{ value.AgriculturalDate }}</div></td>
-                            <td><div class="tdField">{{ value.Name }}</div></td>
-                            <td><div class="tdField" style="width: 205px">{{ value.Data1 }}</div></td>
-                            <td><div class="tdField" style="width: 205px">{{ value.Data2 }}</div></td>
-                        </tr>
-                        <tr id="AgriculturalTechniquesAddForm">
-                            <td>
-                                <div class="tdField" id="agriculturalDateField">
-                                    <input type="date" name="agriculturalDate" id="agriculturalDate" formControlName="agriculturalDate">
+                    <div class="container currentConditionsTabs">
+                        
+                            <div class="row">
+                                <div class="col-3 th">
+                                    <div class="thField">Data</div>
                                 </div>
-                            </td>
-                            <td>
-                                <div class="tdField" id="actionIdField">
-                                    <select formControlName="actionId">
-                                        <option *ngFor="let action of actionsList" [ngValue]="action.ActionId">{{action.Name}}</option>
-                                    </select>
+                                <div class="col-3 th">
+                                    <div class="thField">Czynnosć</div>
                                 </div>
-                            </td>
-                            <td>
-                                <div class="tdField" id="data1Field">
-                                    <input type="text" name="data1" id="data1" formControlName="data1">
+                                <div class="col-6 th" colspan="2">
+                                    <div class="thField">Dane</div>
                                 </div>
-                            </td>
-                            <td>
-                                <div class="tdField" id="data2Field">
-                                    <input type="text" name="data2" id="data2" formControlName="data2">
+                            </div>
+                            <div class="displayDiv">
+                            <div class="row" *ngFor="let value of agriculturalTechniquesTable">
+                                <div class="col-3 td">
+                                    <div class="tdField">{{ value.AgriculturalDate }}</div>
                                 </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <button class="btn btn-outline-success" id="AgriculturalTechniquesAddBtn" type="button" value="Dodaj" (click)="AgriculturalTechniquesShowAddStuff() ">
+                                <div class="col-3 td">
+                                    <div class="tdField">{{ value.Name }}</div>
+                                </div>
+                                <div class="col-3 td">
+                                    <div class="tdField">{{ value.Data1 }}</div>
+                                </div>
+                                <div class="col-3 td">
+                                    <div class="tdField">{{ value.Data2 }}</div>
+                                    </div>
+                            </div>
+                            <div class="row" id="AgriculturalTechniquesAddForm">
+                                <div class="col">
+                                    <div class="tdField" id="agriculturalDateField">
+                                        <input type="date" name="agriculturalDate" id="agriculturalDate" formControlName="agriculturalDate">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="tdField" id="actionIdField">
+                                        <select formControlName="actionId">
+                                            <option *ngFor="let action of actionsList" [ngValue]="action.ActionId">{{action.Name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="tdField" id="data1Field">
+                                        <input type="text" name="data1" id="data1" formControlName="data1">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="tdField" id="data2Field">
+                                        <input type="text" name="data2" id="data2" formControlName="data2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-success buttons" id="AgriculturalTechniquesAddBtn" type="button" value="Dodaj" (click)="AgriculturalTechniquesShowAddStuff() ">
                         Dodaj
                     </button>
-                    <button class="btn btn-outline-success" id="AgriculturalTechniquesSbtBtn" type="submit" value="Zapisz" (click)="AgriculturalTechniquesHideAddStuff()">
+                    <button class="btn btn-outline-success buttons" id="AgriculturalTechniquesSbtBtn" type="submit" value="Zapisz" (click)="AgriculturalTechniquesHideAddStuff()">
                         Zapisz
                     </button>
                 </form>
@@ -112,11 +129,11 @@
                             </td>
                         </tr>
                     </table>
-                    <button class="btn btn-outline-success" id="CurrentConditionsAddBtn" type="button" value="Dodaj"
+                    <button class="btn btn-outline-success buttons" id="CurrentConditionsAddBtn" type="button" value="Dodaj"
                         (click)="CurrentConditionsShowAddStuff() ">
                         Dodaj
                     </button>
-                    <button class="btn btn-outline-success" id="CurrentConditionsSbtBtn" type="submit" value="Zapisz"
+                    <button class="btn btn-outline-success buttons" id="CurrentConditionsSbtBtn" type="submit" value="Zapisz"
                         (click)="CurrentConditionsHideAddStuff()">
                         Zapisz
                     </button>
@@ -164,16 +181,22 @@
                         </td>
                     </tr>
                     </table>
-                    <button class="btn btn-outline-success" id="EventsAddBtn" type="button" value="Dodaj"
+                    <button class="btn btn-outline-success buttons" id="EventsAddBtn" type="button" value="Dodaj"
                         (click)="EventsAddBtn() ">
                         Dodaj
                     </button>
-                    <button class="btn btn-outline-success" id="EventsSbtBtn" type="submit" value="Zapisz"
+                    <button class="btn btn-outline-success buttonsf" id="EventsSbtBtn" type="submit" value="Zapisz"
                         (click)="EventsSbtBtn()">
                         Zapisz
                     </button>
                 </form>
             </div>
         </div>
+    </div>
+</div>
+<div class="cotainer" style="text-align: center;"> 
+    <div class="row" >
+        <div class="col-2" style="border: solid 1px black; height: 19px;"></div>
+        <div class="col-4" style="border: solid 1px black; height: 19px;"></div>
     </div>
 </div>
