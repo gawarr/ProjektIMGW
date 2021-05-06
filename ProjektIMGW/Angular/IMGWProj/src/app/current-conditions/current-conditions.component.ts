@@ -152,6 +152,7 @@ export class CurrentConditionsComponent implements OnInit {
       this._dataService.AgriculturalTechniquesAdd(this.agriculturalTechniquesGroup.value).subscribe(
         data => {}
       );
+    this.AgriculturalTechniquesHideAddStuff();
     this.AgriculturalTechniquesGet();
     this.initAgriculturalTechniquesForm();
     }
@@ -162,6 +163,7 @@ export class CurrentConditionsComponent implements OnInit {
       this._dataService.CurrentConditionsAdd(this.currentConditionsGroup.value).subscribe(
         data => {}
       );
+    this.CurrentConditionsHideAddStuff();
     this.CurrentConditionsGet();
     this.initCurrentConditionsForm();
     }
@@ -172,6 +174,8 @@ export class CurrentConditionsComponent implements OnInit {
       this._dataService.EventsAdd(this.eventsGroup.value).subscribe(
         data => {}
       );
+
+    this.EventsSbtBtn();
     this.EventsGet();
     this.initEventsForm();
     }
@@ -211,7 +215,7 @@ export class CurrentConditionsComponent implements OnInit {
     document.getElementById("currentConditionsCultivationStateId").style.display = "none";
   }
 
-    EventsAddBtn() {
+  EventsAddBtn() {
     document.getElementById("EventsAddBtn").style.display =             "none";
     document.getElementById("EventsSbtBtn").style.display =              "block";
     document.getElementById("eventsEventDate").style.display =        "block";

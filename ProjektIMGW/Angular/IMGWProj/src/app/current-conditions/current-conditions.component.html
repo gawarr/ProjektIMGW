@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">IMGW</a>
+        <a class="navbar-brand" href="#" style="margin-left: 10%;">IMGW</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -31,19 +31,18 @@
                 <form [formGroup]="agriculturalTechniquesGroup" (ngSubmit)="AgriculturalTechniquesAdd()">
                     <input type="hidden" name="login" id="login" class="inputLogin" formControlName="localizationId">
                     <div class="container currentConditionsTabs">
-                        
-                            <div class="row">
-                                <div class="col-3 th">
-                                    <div class="thField">Data</div>
-                                </div>
-                                <div class="col-3 th">
-                                    <div class="thField">Czynnosć</div>
-                                </div>
-                                <div class="col-6 th" colspan="2">
-                                    <div class="thField">Dane</div>
-                                </div>
+                        <div class="row">
+                            <div class="col-3 th">
+                                <div class="thField">Data</div>
                             </div>
-                            <div class="displayDiv">
+                            <div class="col-3 th">
+                                <div class="thField">Czynnosć</div>
+                            </div>
+                            <div class="col-6 th" colspan="2">
+                                <div class="thField">Dane</div>
+                            </div>
+                        </div>
+                        <div class="displayDiv">
                             <div class="row" *ngFor="let value of agriculturalTechniquesTable">
                                 <div class="col-3 td">
                                     <div class="tdField">{{ value.AgriculturalDate }}</div>
@@ -58,36 +57,36 @@
                                     <div class="tdField">{{ value.Data2 }}</div>
                                     </div>
                             </div>
-                            <div class="row" id="AgriculturalTechniquesAddForm">
-                                <div class="col">
-                                    <div class="tdField" id="agriculturalDateField">
-                                        <input type="date" name="agriculturalDate" id="agriculturalDate" formControlName="agriculturalDate">
-                                    </div>
+                        </div>
+                        <div class="row" style="margin-top:2%;" id="AgriculturalTechniquesAddForm">
+                            <div class="col">
+                                <div class="tdField" id="agriculturalDateField">
+                                    <input type="date" name="agriculturalDate" id="agriculturalDate"formControlName="agriculturalDate">
                                 </div>
-                                <div class="col">
-                                    <div class="tdField" id="actionIdField">
-                                        <select formControlName="actionId">
-                                            <option *ngFor="let action of actionsList" [ngValue]="action.ActionId">{{action.Name}}</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="col">
+                                <div class="tdField" id="actionIdField">
+                                    <select formControlName="actionId">
+                                        <option *ngFor="let action of actionsList" [ngValue]="action.ActionId">{{action.Name}}</option>
+                                    </select>
                                 </div>
-                                <div class="col">
-                                    <div class="tdField" id="data1Field">
-                                        <input type="text" name="data1" id="data1" formControlName="data1">
-                                    </div>
+                            </div>
+                            <div class="col">
+                                <div class="tdField" id="data1Field">
+                                    <input type="text" name="data1" id="data1"formControlName="data1">
                                 </div>
-                                <div class="col">
-                                    <div class="tdField" id="data2Field">
-                                        <input type="text" name="data2" id="data2" formControlName="data2">
-                                    </div>
+                            </div>
+                            <div class="col">
+                                <div class="tdField" id="data2Field">
+                                    <input type="text" name="data2" id="data2"formControlName="data2">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <button class="btn btn-outline-success buttons" id="AgriculturalTechniquesAddBtn" type="button" value="Dodaj" (click)="AgriculturalTechniquesShowAddStuff() ">
-                        Dodaj
+                        <img src="./../../assets/img/plus.png" alt="+"> Dodaj
                     </button>
-                    <button class="btn btn-outline-success buttons" id="AgriculturalTechniquesSbtBtn" type="submit" value="Zapisz" (click)="AgriculturalTechniquesHideAddStuff()">
+                    <button class="btn btn-outline-success buttons" id="AgriculturalTechniquesSbtBtn" type="submit" value="Zapisz">
                         Zapisz
                     </button>
                 </form>
@@ -96,45 +95,57 @@
                 <h3>Warunki bierzące</h3>
                 <form [formGroup]="currentConditionsGroup" (ngSubmit)="CurrentConditionsAdd()">
                     <input type="hidden" name="login" id="login" class="inputLogin" formControlName="localizationId">
-                    <table class="currentConditionsTabs">
-                        <tr>
-                            <th><div class="thField" style="width: 283px">Roślina</div></th>
-                            <th><div class="thField" style="width: 284px">Termin siewu</div></th>
-                            <th><div class="thField" style="width: 283px">Kondycja uprawy</div></th>
-                        </tr>
-                        <tr *ngFor="let value of currentConditionsTable">
-                            <td><div class="tdField">{{ value.PlantName }}</div></td>
-                            <td><div class="tdField">{{ value.SowingDate }}</div></td>
-                            <td><div class="tdField">{{ value.State }}</div></td>
-                        </tr>
-                        <tr id="CurrentConditionsAddForm">
-                            <td>
+                    <div class="container currentConditionsTabs">
+                        <div class="row">
+                            <div class="col-4 th">
+                                <div class="thField">Roślina</div>
+                            </div>
+                            <div class="col-4 th">
+                                <div class="thField">Termin siewu</div>
+                            </div>
+                            <div class="col-4 th">
+                                <div class="thField">Kondycja uprawy</div>
+                            </div>
+                        </div>
+                        <div class="displayDiv">
+                            <div class="row" *ngFor="let value of currentConditionsTable">
+                                <div class="col td">
+                                    <div class="tdField">{{ value.PlantName }}</div>
+                                </div>
+                                <div class="col td">
+                                    <div class="tdField">{{ value.SowingDate }}</div>
+                                </div>
+                                <div class="col td">
+                                    <div class="tdField">{{ value.State }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="CurrentConditionsAddForm" style="margin-top: 2%;">
+                            <div class="col td">
                                 <div class="tdField" id="currentConditionsPlantTypeId">
                                     <select formControlName="plantTypeId">
                                         <option *ngFor="let plant of plantsList" [ngValue]="plant.PlantTypeId">{{plant.Name}}</option>
                                     </select>
                                 </div>
-                            </td>
-                            <td>
+                            </div>
+                            <div class="col td">
                                 <div class="tdField" id="currentConditionsSowingDate">
                                     <input type="date" formControlName="sowingDate">
                                 </div>
-                            </td>
-                            <td>
+                            </div>
+                            <div class="col td">
                                 <div class="tdField" id="currentConditionsCultivationStateId">
                                     <select formControlName="cultivationStateId">
                                         <option *ngFor="let state of statesList" [ngValue]="state.CultivationStateId">{{state.Name}}</option>
                                     </select>
                                 </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <button class="btn btn-outline-success buttons" id="CurrentConditionsAddBtn" type="button" value="Dodaj"
-                        (click)="CurrentConditionsShowAddStuff() ">
-                        Dodaj
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-success buttons" id="CurrentConditionsAddBtn" type="button" value="Dodaj" (click)="CurrentConditionsShowAddStuff() ">
+                        <img src="./../../assets/img/plus.png" alt="+">Dodaj
                     </button>
-                    <button class="btn btn-outline-success buttons" id="CurrentConditionsSbtBtn" type="submit" value="Zapisz"
-                        (click)="CurrentConditionsHideAddStuff()">
+                    <button class="btn btn-outline-success buttons" id="CurrentConditionsSbtBtn" type="submit" value="Zapisz">
                         Zapisz
                     </button>
                 </form>
@@ -143,60 +154,71 @@
                 <h3>Dziennik zdarzeń</h3>
                 <form [formGroup]="eventsGroup" (ngSubmit)="EventsAdd()">
                     <input type="hidden" name="login" id="login" class="inputLogin" formControlName="localizationId">
-                    <table class="currentConditionsTabs">
-                    <tr>
-                        <th><div class="thField" style="width: 210px">Data</div></th>
-                        <th><div class="thField" style="width: 210px">Zdarzenie</div></th>
-                        <th><div class="thField" style="width: 120px">Strata</div></th>
-                        <th><div class="thField" style="width: 300px">Obraz</div></th>
-                    </tr>
-                    <tr *ngFor="let value of eventsTable">
-                        <td><div class="tdField">{{ value.EventDate }}</div></td>
-                        <td><div class="tdField">{{ value.EventName }}</div></td>
-                        <td><div class="tdField">{{ value.LossesPercentage }}</div></td>
-                        <td><div class="tdField">{{ value.PhotoPath }}</div></td>
-                    </tr>
-                    <tr id="EventsAddForm">
-                        <td>
+                    <div class="container currentConditionsTabs">
+                    <div class="row">
+                        <div class="col-3 th">
+                            <div class="thField">Data</div>
+                        </div>
+                        <div class="col-3 th">
+                            <div class="thField">Zdarzenie</div>
+                        </div>
+                        <div class="col-2 th">
+                            <div class="thField">Strata</div>
+                        </div>
+                        <div class="col-4 th">
+                            <div class="thField">Obraz</div>
+                        </div>
+                    </div>
+                    <div class="displayDiv">
+                        <div class="row" *ngFor="let value of eventsTable">
+                            <div class="col-3 td">
+                                <div class="tdField">{{ value.EventDate }}</div>
+                            </div>
+                            <div class="col-3 td">
+                                <div class="tdField">{{ value.EventName }}</div>
+                            </div>
+                            <div class="col-2 td">
+                                <div class="tdField">{{ value.LossesPercentage }}</div>
+                            </div>
+                            <div class="col-4 td">
+                                <div class="tdField">{{ value.PhotoPath }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 2%;" id="EventsAddForm">
+                        <div class="col-3 td">
                             <div class="tdField" id="eventsEventDate">
                                 <input type="date" formControlName="eventDate">
                             </div>
-                        </td>
-                        <td>
+                        </div>
+                        <div class="col-3 td">
                             <div class="tdField" id="eventsEventTypeId">
                                 <select formControlName="eventTypeId">
                                     <option *ngFor="let event of eventsList" [ngValue]="event.EventTypeId">{{event.Name}}</option>
                                 </select>
                             </div>
-                        </td>
-                        <td>
+                        </div>
+                        <div class="col-2 td">
                             <div class="tdField" id="eventsLossesPercentage">
                                 <input type="number" formControlName="lossesPercentage">
                             </div>
-                        </td>
-                        <td>
+                        </div>
+                        <div class="col-4 td">
                             <div class="tdField" id="eventsPhotoPath">
                                 <input type="text" formControlName="photoPath">
                             </div>
-                        </td>
-                    </tr>
-                    </table>
+                        </div>
+                    </div>
+                    </div>
                     <button class="btn btn-outline-success buttons" id="EventsAddBtn" type="button" value="Dodaj"
                         (click)="EventsAddBtn() ">
-                        Dodaj
+                        <img src="./../../assets/img/plus.png" alt="+">Dodaj
                     </button>
-                    <button class="btn btn-outline-success buttonsf" id="EventsSbtBtn" type="submit" value="Zapisz"
-                        (click)="EventsSbtBtn()">
+                    <button class="btn btn-outline-success buttonsf" id="EventsSbtBtn" type="submit" value="Zapisz">
                         Zapisz
                     </button>
                 </form>
             </div>
         </div>
-    </div>
-</div>
-<div class="cotainer" style="text-align: center;"> 
-    <div class="row" >
-        <div class="col-2" style="border: solid 1px black; height: 19px;"></div>
-        <div class="col-4" style="border: solid 1px black; height: 19px;"></div>
     </div>
 </div>
